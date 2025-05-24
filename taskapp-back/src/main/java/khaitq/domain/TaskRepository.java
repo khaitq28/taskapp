@@ -6,7 +6,5 @@ public interface TaskRepository {
 
     List<Task> findAll();
 
-    Task save(Task task);
-
     Task findById(long id);
 }

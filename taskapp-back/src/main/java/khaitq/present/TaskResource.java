@@ -23,9 +23,9 @@ public class TaskResource {
         return ResponseEntity.ok(manager.getAllTasks());
     }
 
-    @PostMapping()
-    public ResponseEntity<TaskDto> save(@RequestBody TaskDto dto) {
-        return ResponseEntity.ok(manager.save(dto));
-    }
+//    @PostMapping()
+//    public ResponseEntity<TaskDto> save(@RequestBody TaskDto dto) {
+//        return ResponseEntity.ok(manager.save(dto));
+//    }
 
 }

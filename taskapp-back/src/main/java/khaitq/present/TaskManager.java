@@ -20,7 +20,4 @@ public class TaskManager {
                 .toList();
     }
 
-    public TaskDto save(TaskDto dto) {
-        return modelMapper.map(taskRepository.save(modelMapper.map(dto, Task.class)), TaskDto.class);
-    }
 }

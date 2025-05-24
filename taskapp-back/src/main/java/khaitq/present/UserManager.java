@@ -1,8 +1,10 @@
 package khaitq.present;
 
+import khaitq.domain.Task;
 import khaitq.domain.User;
-import khaitq.infra.UserEntity;
-import khaitq.infra.UserRepositoryDb;
+import khaitq.domain.UserRepository;
+import khaitq.infra.persitence.UserEntity;
+import khaitq.infra.persitence.UserRepositoryDb;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -13,32 +15,37 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserManager {
-    private final UserRepositoryDb userRepositoryDb;
+
+    private final UserRepository userRepository;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
     public User save(User user) {
-        UserEntity entity = modelMapper.map(user, UserEntity.class);
-        UserEntity created = userRepositoryDb.save(entity);
-        return modelMapper.map(created, User.class);
+        return userRepository.save(user);
     }
 
 
     public List<User> getUsers() {
-        List<UserEntity> entities = userRepositoryDb.findAllWithTasks();
-        return entities.stream().map(e -> modelMapper.map(e, User.class)).toList();
+        return userRepository.findAll();
     }
     public long count() {
-        return userRepositoryDb.count();
+        return userRepository.count();
     }
 
-    public void removeAll() {
-        userRepositoryDb.deleteAll();
+
+    public User getById(long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public List<User> getById(long id) {
-        return userRepositoryDb.findById(id).stream()
-                .map(e -> modelMapper.map(e, User.class))
-                .toList();
+    public User addTaskToUser(long userId, TaskDto dto) {
+        User user = getById(userId);
+        Task task = modelMapper.map(dto, Task.class);
+        user.addTask(task);
+        user = userRepository.save(user);
+        return user;
+    }
+
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
     }
 }

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {
-    private long userId;
     private String title;
     private String des;
     private String status;
