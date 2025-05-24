@@ -4,6 +4,13 @@ server:
     threads:
       max: 2000
     max-connections: 2000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taskapp

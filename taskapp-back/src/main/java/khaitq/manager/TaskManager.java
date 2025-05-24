@@ -1,7 +1,7 @@
-package khaitq.present;
+package khaitq.manager;
 
-import khaitq.domain.Task;
 import khaitq.domain.TaskRepository;
+import khaitq.present.TaskDto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

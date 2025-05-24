@@ -2,8 +2,9 @@ package khaitq.config;
 
 import khaitq.domain.Task;
 import khaitq.domain.User;
-import khaitq.present.TaskManager;
-import khaitq.present.UserManager;
+import khaitq.domain.UserRepository;
+import khaitq.manager.TaskManager;
+import khaitq.manager.UserManager;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
-    private final UserManager userManager;
-    private final TaskManager taskManager;
+    private final UserRepository userRepository;
 
     @Override
     public void run(String... args) {
@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
                 }
                 user.addTask(task);
             }
-            userManager.save(user);
+            userRepository.save(user);
         }
     }
 }

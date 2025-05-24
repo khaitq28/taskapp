@@ -1,6 +1,7 @@
 package khaitq.present;
 
 
+import khaitq.manager.TaskManager;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,5 @@ public class TaskResource {
         return ResponseEntity.ok(manager.getAllTasks());
     }
 
-//    @PostMapping()
-//    public ResponseEntity<TaskDto> save(@RequestBody TaskDto dto) {
-//        return ResponseEntity.ok(manager.save(dto));
-//    }
 
 }

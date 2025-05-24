@@ -18,7 +18,7 @@ public class User {
     private String name;
     private String email;
     private String role;
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     public void addTask(Task task) {
         if (tasks == null) {

@@ -1,9 +1,11 @@
 package khaitq.present;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import khaitq.manager.UserManager;
 import khaitq.domain.User;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,37 +15,32 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/api/v1/users")
+@Tag(name = "User Management", description = "APIs for managing users in the application")
 public class UserResource {
     private final UserManager manager;
 
-    @GetMapping(path = "/hi")
-    public String hello() {
-        return "hi";
-    }
-
-    @PostMapping()
-    public ResponseEntity<User> save(@RequestBody User dto) {
-        return ResponseEntity.ok(manager.save(dto));
-    }
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(manager.getUsers());
     }
 
+    @Operation(summary = "Get user by ID")
     @GetMapping(path = "/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") long id) {
         return ResponseEntity.ok(manager.getById(id));
     }
 
+    @PostMapping()
+    @Operation(summary = "Create a new user", description = "This endpoint allows you to create a new user with the provided details.")
+    public ResponseEntity<BaseUserDto> save(@RequestBody BaseUserDto dto) {
+        return ResponseEntity.ok(manager.save(dto));
+    }
+
     @PostMapping(path = "/{id}/tasks")
+    @Operation(summary = "Create a new task for user", description = "This endpoint allows you to add a new task to an existing user by their ID.")
     public ResponseEntity<User> addTaskToUser(@PathVariable("id") long userId, @RequestBody TaskDto dto) {
         User user = manager.addTaskToUser(userId, dto);
         return ResponseEntity.ok(user);
-    }
-
-    @GetMapping(path = "/count")
-    public ResponseEntity<Long> count() {
-        return ResponseEntity.ok(manager.count());
     }
 
     @DeleteMapping(path = "/{id}")
