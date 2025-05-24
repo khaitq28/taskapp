@@ -18,7 +18,7 @@ public class TaskEntity {
     private String title;
     private String des;
     private String status;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime finishedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
