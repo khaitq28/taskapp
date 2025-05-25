@@ -2,8 +2,8 @@ package khaitq.infra;
 
 import khaitq.domain.Task;
 import khaitq.domain.TaskRepository;
+import khaitq.infra.persitence.TaskEntity;
 import khaitq.infra.persitence.TaskRepositoryDb;
-import khaitq.infra.persitence.UserRepositoryDb;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +26,21 @@ public class TaskRepoImpl implements TaskRepository {
     @Override
     public Task findById(long id) {
         return repositoryDb.findById(id).map(e -> modelMapper.map(e, Task.class)).orElse(null);
+    }
+
+    @Override
+    public List<Task> findByUserId(long userId) {
+        return repositoryDb.findByUserId(userId).stream()
+                .map(e -> modelMapper.map(e, Task.class))
+                .toList();
+    }
+
+    @Override
+    public Task save(Task task) {
+        TaskEntity entity  = modelMapper.map(task, TaskEntity.class);
+        entity.setId(null);
+        return modelMapper.map(
+                repositoryDb.save(entity),
+                Task.class);
     }
 }

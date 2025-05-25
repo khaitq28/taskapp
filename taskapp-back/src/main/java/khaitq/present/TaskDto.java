@@ -14,4 +14,5 @@ public class TaskDto {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime finishedAt;
+    private Long userId;
 }

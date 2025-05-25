@@ -20,28 +20,19 @@ public class UserRepositoryImpl implements UserRepository {
     private final ModelMapper modelMapper = new ModelMapper();
     @Override
     public List<User> findAll() {
-        List<UserEntity> entities = userRepositoryDb.findAllWithTasks();
+        List<UserEntity> entities = userRepositoryDb.findAll();
         return entities.stream().map(e -> modelMapper.map(e, User.class)).toList();
     }
     @Override
     public User save(User user) {
         UserEntity entity = modelMapper.map(user, UserEntity.class);
-        for (TaskEntity task : entity.getTasks()) {
-            task.setUser(entity);
-        }
-        UserEntity created = userRepositoryDb.save(entity);
-        return modelMapper.map(created, User.class);
+        entity = userRepositoryDb.save(entity);
+        return modelMapper.map(entity, User.class);
     }
     @Override
     public Optional<User> findById(long id) {
-        UserEntity entity =  userRepositoryDb.findByIdAndTasks(id);
-        return Optional.ofNullable(entity)
+        return Optional.of(userRepositoryDb.findById(id))
                 .map(e -> modelMapper.map(e, User.class));
-    }
-
-    @Override
-    public long count() {
-        return userRepositoryDb.count();
     }
 
     @Override

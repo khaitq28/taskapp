@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     status VARCHAR(20) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     finished_at TIMESTAMP NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
     );
 
 -- INSERT INTO users (id, name, email, role) VALUES

@@ -5,6 +5,9 @@ import khaitq.domain.User;
 import khaitq.domain.UserRepository;
 import khaitq.manager.TaskManager;
 import khaitq.manager.UserManager;
+import khaitq.present.BaseUserDto;
+import khaitq.present.TaskDto;
+import khaitq.present.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,30 +18,33 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
-    private final UserRepository userRepository;
+    private final UserManager userManager;
+    private final TaskManager taskManager;
 
     @Override
     public void run(String... args) {
         for (int i = 0; i < 10; i++) {
-            User user = User.builder()
+            BaseUserDto user = BaseUserDto.builder()
                     .name("User " + i)
                     .email("user" + i + "@example.com")
                     .role(i % 2 == 0 ? "USER" : "ADMIN")
                     .build();
+            UserDto createdUser = userManager.save(user);
 
             for (int j = 0; j < 4; j++) {
                 String status = j % 2 == 0 ? "DOING" : "DONE";
-                Task task = Task.builder()
+                TaskDto task = TaskDto.builder()
                         .title("Task " + j)
                         .des("Description for task " + j)
                         .status(status)
+                        .userId(createdUser.getId())
                         .build();
                 if (status.equals("DONE")) {
                     task.setFinishedAt(LocalDateTime.now());
                 }
-                user.addTask(task);
+                task.setCreatedAt(LocalDateTime.now());
+                taskManager.saveTask(task);
             }
-            userRepository.save(user);
         }
     }
 }

@@ -23,8 +23,7 @@ public class TaskEntity {
     private LocalDateTime finishedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @PrePersist

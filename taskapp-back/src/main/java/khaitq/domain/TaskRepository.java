@@ -7,4 +7,8 @@ public interface TaskRepository {
     List<Task> findAll();
 
     Task findById(long id);
+
+    List<Task> findByUserId(long userId);
+
+    Task save(Task task);
 }

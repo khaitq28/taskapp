@@ -26,21 +26,14 @@ public class UserResource {
 
     @Operation(summary = "Get user by ID")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
-        return ResponseEntity.ok(manager.getById(id));
+    public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") long id) {
+        return ResponseEntity.ok(manager.getUserTasksById(id));
     }
 
     @PostMapping()
     @Operation(summary = "Create a new user", description = "This endpoint allows you to create a new user with the provided details.")
     public ResponseEntity<BaseUserDto> save(@RequestBody BaseUserDto dto) {
         return ResponseEntity.ok(manager.save(dto));
-    }
-
-    @PostMapping(path = "/{id}/tasks")
-    @Operation(summary = "Create a new task for user", description = "This endpoint allows you to add a new task to an existing user by their ID.")
-    public ResponseEntity<User> addTaskToUser(@PathVariable("id") long userId, @RequestBody TaskDto dto) {
-        User user = manager.addTaskToUser(userId, dto);
-        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping(path = "/{id}")

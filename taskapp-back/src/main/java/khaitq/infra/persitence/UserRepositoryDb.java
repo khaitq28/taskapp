@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface UserRepositoryDb extends JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT u FROM UserEntity u LEFT JOIN FETCH u.tasks")
-    List<UserEntity> findAllWithTasks();
-
 
     @Query("SELECT u FROM UserEntity u WHERE u.id = :id")
     UserEntity findByIdAndTasks(@Param("id") long id);

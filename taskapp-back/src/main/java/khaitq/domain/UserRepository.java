@@ -11,8 +11,6 @@ public interface UserRepository {
 
     Optional<User> findById(long id);
 
-    long count();
-
     void deleteById(long id);
 
 }
