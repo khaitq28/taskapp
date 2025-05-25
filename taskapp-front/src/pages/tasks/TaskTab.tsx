@@ -22,6 +22,10 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                                 cursor: 'pointer'
                             }}
                         >
+
+                            <ListItemText
+                                primary={task.id}
+                            />
                             <Checkbox
                                 edge="start"
                                 checked={task.completed}
@@ -41,6 +45,9 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                                     textDecoration: task.completed ? 'line-through' : 'none',
                                     color: task.completed ? 'text.secondary' : 'text.primary'
                                 }}
+                            />
+                            <ListItemText
+                                primary={task.status}
                             />
                             <IconButton
                                 onClick={(e) => {

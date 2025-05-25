@@ -30,10 +30,10 @@ export const Login = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    const handLogin = (role: string) => {
+    const handLogin = (id : number, role: string) => {
         login("FAKE_TOKEN",
             {
-                id: 1,
+                id: id,
                 name: "Tony " + role,
                 email: "tony@example.com",
                 role: role
@@ -49,12 +49,11 @@ export const Login = () => {
 
 
     return (
-
         <Box>
             {!isAuthenticated && (
                 <DialogActions>
-                    <Button variant="contained" onClick={() => handLogin("admin")}>Fake Login as Admin</Button>
-                    <Button variant="contained" onClick={() => handLogin("member")}>Fake Login as Member</Button>
+                    <Button variant="contained" onClick={() => handLogin(1, "ADMIN")}>Fake Login as Admin</Button>
+                    <Button variant="contained" onClick={() => handLogin(2, "MEMBER")}>Fake Login as Member</Button>
                 </DialogActions>
             )}
 

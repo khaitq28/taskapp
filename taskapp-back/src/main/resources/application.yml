@@ -39,6 +39,8 @@ spring:
       schema-locations: classpath:init.sql
       mode: always
 
+
+
 #logging:
 #  level:
 #    org.hibernate.SQL: DEBUG

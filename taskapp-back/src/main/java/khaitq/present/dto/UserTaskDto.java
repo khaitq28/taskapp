@@ -1,4 +1,4 @@
-package khaitq.present;
+package khaitq.present.dto;
 
 
 import lombok.Builder;

@@ -22,8 +22,8 @@ export const Tasks = () => {
   const [notifMessage, setNotifMessage] = useState<string>('');
   const [selectedTable, setSelectedTable] = useState(0);
 
-  const finishedTasks = tasks.filter(task => task.completed);
-  const unFinishedTasks = tasks.filter(task => !task.completed);
+  const finishedTasks = tasks.filter(task => task.status.toUpperCase() === 'DONE');
+  const unFinishedTasks = tasks.filter(task => task.status.toUpperCase() !== 'DONE');
 
   const auth = useAuth();
 

@@ -38,7 +38,6 @@ public class TaskRepoImpl implements TaskRepository {
     @Override
     public Task save(Task task) {
         TaskEntity entity  = modelMapper.map(task, TaskEntity.class);
-        entity.setId(null);
         return modelMapper.map(
                 repositoryDb.save(entity),
                 Task.class);

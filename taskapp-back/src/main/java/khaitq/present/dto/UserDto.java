@@ -1,9 +1,7 @@
-package khaitq.present;
+package khaitq.present.dto;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 
 
 @Data
