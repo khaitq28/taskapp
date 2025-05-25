@@ -18,11 +18,22 @@ public class TaskEntity {
     private String title;
     private String des;
     private String status;
-    private LocalDateTime createdAt = LocalDateTime.now();
+
+    private LocalDateTime createdAt;
     private LocalDateTime finishedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private UserEntity user;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (status != null && status.equalsIgnoreCase("DONE") && finishedAt == null) {
+            finishedAt = LocalDateTime.now();
+        }
+    }
 }

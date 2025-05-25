@@ -4,12 +4,15 @@ server:
     threads:
       max: 2000
     max-connections: 2000
+  servlet:
+    context-path: /taskapp
 
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
 
 spring:
   datasource:
