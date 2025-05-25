@@ -25,7 +25,7 @@ export const NavBar = () => {
                 {auth?.isAuthenticated && (
                     <Button color="inherit" component={RouterLink} to="/tasks">Tasks</Button>
                 )}
-                {auth?.isAuthenticated && auth.userLogin?.role === 'admin' && (
+                {auth?.isAuthenticated && auth.userLogin?.role === 'ADMIN' && (
                     <Button color="inherit" component={RouterLink} to="/admin">Admin</Button>
                 )}
                 <Box sx={{ flexGrow: 1 }} />

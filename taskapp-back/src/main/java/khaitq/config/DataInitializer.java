@@ -20,8 +20,8 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        int taskCount = 0;
-        for (int i = 0; i < 10; i++) {
+        int taskCount = 1;
+        for (int i = 1; i < 11; i++) {
             BaseUserDto user = BaseUserDto.builder()
                     .name("User " + i)
                     .email("user" + i + "@example.com")
@@ -29,7 +29,7 @@ public class DataInitializer implements CommandLineRunner {
                     .build();
             UserDto createdUser = userManager.save(user);
 
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 10; j++) {
                 String status = j % 2 == 0 ? "DOING" : "DONE";
                 CreateUpdateTaskDto task = CreateUpdateTaskDto.builder()
                         .title("Task " + taskCount)

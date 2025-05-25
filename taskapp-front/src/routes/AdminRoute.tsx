@@ -9,7 +9,7 @@ export const AdminRoute = ({children}: {children: JSX.Element}) => {
     if (auth.loading) {
         return <div>Loading...</div>;
     }
-    if (!auth || !auth.isAuthenticated || auth.userLogin?.role !== 'admin') {
+    if (!auth || !auth.isAuthenticated || auth.userLogin?.role !== 'ADMIN') {
         return <Navigate to="/unauthorized" />;
     }
     return children;
