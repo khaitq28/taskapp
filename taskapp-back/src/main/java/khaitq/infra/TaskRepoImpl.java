@@ -42,4 +42,9 @@ public class TaskRepoImpl implements TaskRepository {
                 repositoryDb.save(entity),
                 Task.class);
     }
+
+    @Override
+    public void delete(Task task) {
+        repositoryDb.deleteById(task.getId());
+    }
 }

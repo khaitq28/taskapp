@@ -14,12 +14,15 @@ export const TaskService = {
         return api.post(TASK_BASE_URL, data)
     },
 
-    getTaskById: (id: string)  => {
+    getTaskById: (id: number)  => {
         return api.get<Task>(TASK_BASE_URL + `/${id}`);
     },
 
-    updateTask: (id: string, data: Task) => {
-        return api.post(TASK_BASE_URL + `/${id}`, data);
-    }
+    updateTask: (id: number, data: Task) => {
+        return api.put(TASK_BASE_URL + `/${id}`, data);
+    },
 
+    deleteTask(taskId: number) {
+        return api.delete(TASK_BASE_URL + `/${taskId}`);
+    }
 };

@@ -12,6 +12,7 @@ import {TaskSearchBlock} from "./TaskSearchBlock.tsx";
 import {Task} from "../../data/mockData.ts";
 import {UserService} from "../../services/UserService.ts";
 import {useAuth} from "../../hooks/useAuth.tsx";
+import {TaskService} from "../../services/TaskService.ts";
 
 export const Tasks = () => {
   const navigate = useNavigate();
@@ -50,8 +51,10 @@ export const Tasks = () => {
   };
 
   const deleteTask = (taskId: number) => {
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    setTasks(updatedTasks);
+
+    TaskService.deleteTask(taskId).then(() => {
+      fetchAllTasks().catch(err=> console.log(err));
+    });
     setNotifMessage('Task ' + taskId  + ' was deleted successfully');
     setOpenNotif(true);
   }
@@ -68,7 +71,8 @@ export const Tasks = () => {
       title: title,
       completed: false,
       createdAt: new Date().toISOString(),
-      description: '',
+      finishedAt: new Date().toISOString(),
+      des: '',
       status: ''
     }
     setTasks([...tasks, newTask]);
@@ -98,8 +102,8 @@ export const Tasks = () => {
         title: 'Title task ' + (maxId + i),
         user_id: 1,
         completed: false,
-        createdAt: new Date().toISOString(),
-        description: '',
+        finishedAt: new Date().toISOString(),
+        des: '',
         status: ''
       });
     }
@@ -138,12 +142,14 @@ export const Tasks = () => {
       </Box>
 
       <Box sx={{ mt:2}}>
+        <>
         {selectedTable == 0 && (
             <TaskTab tasks={unFinishedTasks} handleToggleTask={handleToggleTask} deleteTask={deleteTask} showTaskDetail={showTaskDetail}/>
         )}
         {selectedTable == 1 && (
             <TaskTab tasks={finishedTasks} handleToggleTask={handleToggleTask} deleteTask={deleteTask} showTaskDetail={showTaskDetail}/>
         )}
+        </>
       </Box>
 
       <Snackbar

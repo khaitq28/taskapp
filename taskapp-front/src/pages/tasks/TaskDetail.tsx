@@ -15,7 +15,7 @@ import {TaskService} from "../../services/TaskService.ts";
 const STORAGE_KEY = 'todo-tasks';
 
 export const TaskDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: number }>();
   const navigate = useNavigate();
   const [task, setTask] = useState<Task>();
   const [editedTitle, setEditedTitle] = useState('');
@@ -51,16 +51,19 @@ export const TaskDetail = () => {
 
   const handleToggleComplete = () => {
     if (!task) return;
-
-    const savedTasks = localStorage.getItem(STORAGE_KEY);
-    if (savedTasks) {
-      const tasks = JSON.parse(savedTasks);
-      const updatedTasks = tasks.map((t: Task) =>
-        t.id === task.id ? { ...t, completed: !t.completed } : t
-      );
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedTasks));
-      setTask({ ...task, completed: !task.completed });
+    if (task.status.toUpperCase() === 'DONE') {
+        task.status = 'TODO';
+        task.finishedAt = '';
+    } else {
+        task.status = 'DONE';
+        task.finishedAt = new Date().toISOString();
     }
+    TaskService.updateTask(task.id, task).then(res => {
+      const newTask: Task = res.data;
+      setTask(newTask);
+    }).catch(err => {
+      console.error("Error updating task:", err);
+    });
   };
 
   if (!task) {
@@ -85,7 +88,7 @@ export const TaskDetail = () => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={task.completed}
+                checked={task.status.toUpperCase() === 'DONE'}
                 onChange={handleToggleComplete}
                 color="primary"
               />
@@ -95,6 +98,7 @@ export const TaskDetail = () => {
         </Box>
 
         <Box sx={{ mb: 2 }}>
+          <>
           {isEditing ? (
             <Box sx={{ display: 'flex', gap: 1 }}>
               <TextField
@@ -120,11 +124,17 @@ export const TaskDetail = () => {
               </Button>
             </Box>
           )}
+          </>
         </Box>
 
         <Typography variant="body2" color="text.secondary">
           Created at: {new Date(task.createdAt).toLocaleString()}
         </Typography>
+        { task.finishedAt && (
+            <Typography variant="body2" color="text.secondary">
+                Finished at: {new Date(task.finishedAt).toLocaleString()}
+            </Typography>
+        )}
 
         <Button onClick={() => navigate('/tasks')}
           sx={{ mt: 3 }}>

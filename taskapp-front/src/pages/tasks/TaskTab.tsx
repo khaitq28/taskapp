@@ -14,6 +14,7 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
         <Box>
             <TableContainer component={Paper}>
                 <List>
+                    <>
                     {tasks.map((task) => (
                         <ListItem
                             key={task.id}
@@ -22,14 +23,9 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                                 cursor: 'pointer'
                             }}
                         >
-
-                            <ListItemText
-                                primary={task.id}
-                            />
                             <Checkbox
                                 edge="start"
-                                checked={task.completed}
-                                // tabIndex={-1}
+                                checked={task.status.toUpperCase() === 'DONE'}
                                 disableRipple
                                 color="primary"
                                 className="MuiCheckbox-root"
@@ -47,7 +43,7 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                                 }}
                             />
                             <ListItemText
-                                primary={task.status}
+                                primary={task.des}
                             />
                             <IconButton
                                 onClick={(e) => {
@@ -60,6 +56,7 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                             </IconButton>
                         </ListItem>
                     ))}
+                    </>
                 </List>
             </TableContainer>
         </Box>

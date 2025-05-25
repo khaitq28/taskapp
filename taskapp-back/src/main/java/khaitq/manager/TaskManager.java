@@ -47,4 +47,16 @@ public class TaskManager {
     public void init() {
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
     }
+
+    public TaskDto getById(long id) {
+        Task task = taskRepository.findById(id);
+        if (task == null) throw new RuntimeException("Task not found with id: " + id);
+        return modelMapper.map(task, TaskDto.class);
+    }
+
+    public void deleteTask(long id) {
+        Task task = taskRepository.findById(id);
+        if (task == null) throw new RuntimeException("Task not found with id: " + id);
+        taskRepository.delete(task);
+    }
 }
