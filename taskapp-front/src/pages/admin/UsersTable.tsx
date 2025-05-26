@@ -13,17 +13,33 @@ export const UsersTable = ({users}: { users: User[]}) => {
     }, []);
 
     return (
-        // user MUI for users lists by List and ListItem and Box
-        <Box>
-                {users.map((user) => (
-                    <ListItem key={user.id} component="div">
-                        <ListItemText primary={`ID: ${user.id}`} />
-                        <ListItemText primary={`Username: ${user.name}`} />
-                        <ListItemText primary={`Email: ${user.email}`} />
-                        <ListItemText primary={`Role: ${user.role}`} />
-                    </ListItem>
-                ))}
-        </Box>
 
+        <Box>
+            <TableContainer component={Paper}>
+                <List>
+                    <>
+                        {users.map((task) => (
+                            <ListItem
+                                key={task.id}
+                                component="div"
+                                sx={{
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <ListItemText
+                                    primary={task.name}
+                                />
+                                <ListItemText
+                                    primary={task.email}
+                                />
+                                <ListItemText
+                                    primary={task.role}
+                                />
+                            </ListItem>
+                        ))}
+                    </>
+                </List>
+            </TableContainer>
+        </Box>
     )
 }
