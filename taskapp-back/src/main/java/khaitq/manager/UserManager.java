@@ -53,6 +53,11 @@ public class UserManager {
     }
 
     public void deleteUser(long id) {
+        // delete all tasks associated with the user
+        List<Task> tasks = taskRepository.findByUserId(id);
+        for (Task task : tasks) {
+            taskRepository.delete(task);
+        }
         userRepository.deleteById(id);
     }
 }

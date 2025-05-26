@@ -11,6 +11,9 @@ export const UserService = {
 
     getAllUsers: () => {
         return api.get<Object[]>(USER_BASE_URL);
-    }
+    },
 
+    deleteUser(id: number) {
+        return api.delete(USER_BASE_URL + `/${id}`);
+    }
 }
