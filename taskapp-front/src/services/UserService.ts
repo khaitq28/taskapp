@@ -15,5 +15,9 @@ export const UserService = {
 
     deleteUser(id: number) {
         return api.delete(USER_BASE_URL + `/${id}`);
+    },
+
+    saveUser(user: User) {
+        return api.post(USER_BASE_URL, user);
     }
 }

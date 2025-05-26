@@ -1,9 +1,9 @@
 import {Task} from "./Task.ts";
 
 export interface User {
-    id: number;
+    id?: number;
     name: string;
     email: string;
-    tasks: Task[];
+    tasks?: Task[];
     role: string;
 }
