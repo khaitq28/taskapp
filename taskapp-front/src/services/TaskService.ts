@@ -1,4 +1,4 @@
-import {Task} from "../data/mockData.ts";
+import {Task} from "../data/Task.ts";
 import {api} from "./api.ts";
 
 

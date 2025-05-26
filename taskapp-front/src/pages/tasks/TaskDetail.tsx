@@ -9,7 +9,7 @@ import {
   Checkbox,
   FormControlLabel
 } from '@mui/material';
-import { Task } from '../../data/mockData.ts';
+import { Task } from '../../data/Task.ts';
 import {TaskService} from "../../services/TaskService.ts";
 
 const STORAGE_KEY = 'todo-tasks';
@@ -19,6 +19,7 @@ export const TaskDetail = () => {
   const navigate = useNavigate();
   const [task, setTask] = useState<Task>();
   const [editedTitle, setEditedTitle] = useState('');
+  const [des, setDes] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export const TaskDetail = () => {
         const task: Task = res.data;
         setTask(task);
         setEditedTitle(task.title);
+        setDes(task.des);
       })
     };
     fetchTask().catch(err => {
@@ -37,15 +39,14 @@ export const TaskDetail = () => {
 
   const handleSave = () => {
     if (!task || !editedTitle.trim()) return;
-    const savedTasks = localStorage.getItem(STORAGE_KEY);
-    if (savedTasks) {
-      const tasks = JSON.parse(savedTasks);
-      const updatedTasks = tasks.map((t: Task) =>
-         t.id === task.id ? { ...t, title: editedTitle.trim() } : t
-      );
-      task.title = editedTitle;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedTasks));
-    }
+    task.title = editedTitle;
+    task.des = des;
+    TaskService.updateTask(task.id, task).then(res => {
+      const updatedTask: Task = res.data;
+      setTask(updatedTask);
+    }).catch(err => {
+      console.error("Error updating task:", err);
+    });
     setIsEditing(false);
   };
 
@@ -58,6 +59,7 @@ export const TaskDetail = () => {
         task.status = 'DONE';
         task.finishedAt = new Date().toISOString();
     }
+    console.log(task);
     TaskService.updateTask(task.id, task).then(res => {
       const newTask: Task = res.data;
       setTask(newTask);
@@ -102,15 +104,25 @@ export const TaskDetail = () => {
           {isEditing ? (
             <Box sx={{ display: 'flex', gap: 1 }}>
               <TextField
+                  fullWidth
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                  variant="outlined"
+              />
+              <TextField
                 fullWidth
-                value={editedTitle}
-                onChange={(e) => setEditedTitle(e.target.value)}
+                value={des}
+                onChange={(e) => setDes(e.target.value)}
                 variant="outlined"
               />
               <Button variant="contained" onClick={handleSave}>
                 Save
               </Button>
-              <Button variant="outlined" onClick={() => setIsEditing(false)}>
+              <Button variant="outlined" onClick={() => {
+                  setIsEditing(false);
+                  setDes(task.des); setEditedTitle(task.title);
+                }
+              }>
                 Cancel
               </Button>
             </Box>
@@ -118,6 +130,9 @@ export const TaskDetail = () => {
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
               <Typography variant="h6" sx={{ flex: 1 }}>
                 {task.title}
+              </Typography>
+              <Typography variant="h6" sx={{ flex: 1 }}>
+                {task.des}
               </Typography>
               <Button variant="outlined" onClick={() => setIsEditing(true)}>
                 Edit

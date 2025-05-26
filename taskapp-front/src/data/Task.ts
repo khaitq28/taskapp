@@ -7,5 +7,4 @@ export interface Task {
   completed: boolean;
   finishedAt: string;
   createdAt: string;
-
 }

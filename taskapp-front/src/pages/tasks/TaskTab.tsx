@@ -1,5 +1,5 @@
 import {Box, Checkbox, IconButton, List, ListItem, ListItemText, Paper, TableContainer} from "@mui/material";
-import {Task} from "../../data/mockData.ts";
+import {Task} from "../../data/Task.ts";
 import { Delete } from "@mui/icons-material";
 
 

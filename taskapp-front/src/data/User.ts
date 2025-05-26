@@ -1,4 +1,4 @@
-import {Task} from "./mockData.ts";
+import {Task} from "./Task.ts";
 
 export interface User {
     id: number;

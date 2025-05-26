@@ -19,7 +19,6 @@ export const NavBar = () => {
     };
 
     return (
-
             <Toolbar>
                 <Button color="inherit" component={RouterLink} to="/">Home</Button>
                 {auth?.isAuthenticated && (

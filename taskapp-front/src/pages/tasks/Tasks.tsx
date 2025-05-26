@@ -9,7 +9,7 @@ import {
 import {AddTaskDialog} from "./AddTaskDialog.tsx";
 import {TaskTab} from "./TaskTab.tsx";
 import {TaskSearchBlock} from "./TaskSearchBlock.tsx";
-import {Task} from "../../data/mockData.ts";
+import {Task} from "../../data/Task.ts";
 import {UserService} from "../../services/UserService.ts";
 import {useAuth} from "../../hooks/useAuth.tsx";
 import {TaskService} from "../../services/TaskService.ts";
