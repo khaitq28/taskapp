@@ -15,11 +15,3 @@ CREATE TABLE IF NOT EXISTS tasks (
     finished_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
     );
-
--- INSERT INTO users (id, name, email, role) VALUES
--- (1, 'AdminY2k', 'user1@gmail.com', 'admin'),
--- (2, 'UserNormalY2k', 'user2@gmail.com', 'user');
---
---
--- INSERT INTO tasks (id, user_id, title, des) VALUES
--- (1, 1, 'Task 1', 'This is the first task description');

@@ -2,7 +2,6 @@ package khaitq.infra;
 
 import khaitq.domain.User;
 import khaitq.domain.UserRepository;
-import khaitq.infra.persitence.TaskEntity;
 import khaitq.infra.persitence.UserEntity;
 import khaitq.infra.persitence.UserRepositoryDb;
 import lombok.AllArgsConstructor;
