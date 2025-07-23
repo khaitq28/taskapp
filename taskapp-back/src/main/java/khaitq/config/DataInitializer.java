@@ -1,10 +1,10 @@
 package khaitq.config;
 
-import khaitq.manager.TaskManager;
-import khaitq.manager.UserManager;
-import khaitq.present.dto.BaseUserDto;
-import khaitq.present.dto.CreateUpdateTaskDto;
-import khaitq.present.dto.UserDto;
+import khaitq.applicatioin.TaskManager;
+import khaitq.applicatioin.UserManager;
+import khaitq.rest.dto.BaseUserDto;
+import khaitq.rest.dto.CreateUpdateTaskDto;
+import khaitq.rest.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

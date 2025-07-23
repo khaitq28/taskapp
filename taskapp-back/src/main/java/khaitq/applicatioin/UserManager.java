@@ -1,13 +1,13 @@
-package khaitq.manager;
+package khaitq.applicatioin;
 
 import khaitq.domain.Task;
 import khaitq.domain.TaskRepository;
 import khaitq.domain.User;
 import khaitq.domain.UserRepository;
-import khaitq.present.dto.BaseUserDto;
-import khaitq.present.dto.UserDto;
-import khaitq.present.dto.UserTaskDto;
-import khaitq.present.dto.TaskDto;
+import khaitq.rest.dto.BaseUserDto;
+import khaitq.rest.dto.UserDto;
+import khaitq.rest.dto.UserTaskDto;
+import khaitq.rest.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
-package khaitq.manager;
+package khaitq.applicatioin;
 
 import jakarta.annotation.PostConstruct;
 import khaitq.domain.Task;
 import khaitq.domain.TaskRepository;
 import khaitq.domain.UserRepository;
-import khaitq.present.dto.CreateUpdateTaskDto;
-import khaitq.present.dto.TaskDto;
+import khaitq.rest.dto.CreateUpdateTaskDto;
+import khaitq.rest.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;

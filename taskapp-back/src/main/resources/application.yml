@@ -39,6 +39,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 100
+
 
 logging:
   level:

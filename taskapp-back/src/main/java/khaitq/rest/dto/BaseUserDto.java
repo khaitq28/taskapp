@@ -1,4 +1,4 @@
-package khaitq.present.dto;
+package khaitq.rest.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

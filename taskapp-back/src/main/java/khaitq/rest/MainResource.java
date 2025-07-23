@@ -1,4 +1,4 @@
-package khaitq.present;
+package khaitq.rest;
 
 
 import org.springframework.web.bind.annotation.*;

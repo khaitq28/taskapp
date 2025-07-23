@@ -1,12 +1,12 @@
-package khaitq.present;
+package khaitq.rest;
 
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import khaitq.manager.UserManager;
-import khaitq.present.dto.BaseUserDto;
-import khaitq.present.dto.UserTaskDto;
+import khaitq.applicatioin.UserManager;
+import khaitq.rest.dto.BaseUserDto;
+import khaitq.rest.dto.UserTaskDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

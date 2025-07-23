@@ -1,13 +1,13 @@
-package khaitq.present;
+package khaitq.rest;
 
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import khaitq.manager.TaskManager;
-import khaitq.present.dto.CreateUpdateTaskDto;
-import khaitq.present.dto.TaskDto;
+import khaitq.applicatioin.TaskManager;
+import khaitq.rest.dto.CreateUpdateTaskDto;
+import khaitq.rest.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

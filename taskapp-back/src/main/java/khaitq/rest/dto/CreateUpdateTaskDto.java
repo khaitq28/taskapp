@@ -1,6 +1,5 @@
-package khaitq.present.dto;
+package khaitq.rest.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
