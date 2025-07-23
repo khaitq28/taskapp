@@ -18,5 +18,4 @@ public class CreateUpdateTaskDto {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime finishedAt;
-    private Long userId;
 }

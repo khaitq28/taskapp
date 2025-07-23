@@ -35,14 +35,13 @@ public class DataInitializer implements CommandLineRunner {
                         .title("Task " + taskCount)
                         .des("Description for task " + taskCount)
                         .status(status)
-                        .userId(createdUser.getId())
                         .build();
                 taskCount++;
                 if (status.equals("DONE")) {
                     task.setFinishedAt(LocalDateTime.now());
                 }
                 task.setCreatedAt(LocalDateTime.now());
-                taskManager.createTask(task);
+                taskManager.createTask(task,createdUser.getId());
             }
         }
     }

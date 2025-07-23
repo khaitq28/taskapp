@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/api/v1/users")
-@Tag(name = "User Management", description = "APIs for managing users in the application")
+@Tag(name = "User Management")
 public class UserResource {
     private final UserManager manager;
 

@@ -26,10 +26,11 @@ public class TaskManager {
                 .toList();
     }
 
-    public TaskDto createTask(CreateUpdateTaskDto dto) {
-        userRepository.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+    public TaskDto createTask(CreateUpdateTaskDto dto, Long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         Task task = modelMapper.map(dto, Task.class);
         task.setId(null);
+        task.setUserId(userId);
         task = taskRepository.save(task);
         return modelMapper.map(task, TaskDto.class);
     }
