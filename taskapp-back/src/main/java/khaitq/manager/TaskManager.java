@@ -20,8 +20,9 @@ public class TaskManager {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper = new ModelMapper();
-    public List<TaskDto> getAllTasks() {
-        return taskRepository.findAll().stream()
+
+    public List<TaskDto> getByUserId(long userId) {
+        return taskRepository.findByUserId(userId).stream()
                 .map(e -> modelMapper.map(e, TaskDto.class))
                 .toList();
     }
