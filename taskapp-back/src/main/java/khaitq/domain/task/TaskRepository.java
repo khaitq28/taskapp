@@ -1,4 +1,4 @@
-package khaitq.domain;
+package khaitq.domain.task;
 
 import java.util.List;
 

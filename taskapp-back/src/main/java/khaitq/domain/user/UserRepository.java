@@ -1,4 +1,4 @@
-package khaitq.domain;
+package khaitq.domain.user;
 
 import java.util.List;
 import java.util.Optional;

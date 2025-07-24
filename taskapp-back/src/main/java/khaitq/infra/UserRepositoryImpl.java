@@ -1,7 +1,8 @@
 package khaitq.infra;
 
-import khaitq.domain.User;
-import khaitq.domain.UserRepository;
+import khaitq.domain.exception.EntityNotFoundException;
+import khaitq.domain.user.User;
+import khaitq.domain.user.UserRepository;
 import khaitq.infra.persitence.UserEntity;
 import khaitq.infra.persitence.UserRepositoryDb;
 import lombok.AllArgsConstructor;
@@ -35,9 +36,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteById(long id) {
-        if (!userRepositoryDb.existsById(id))
-            throw new RuntimeException("User not found");
-        userRepositoryDb.deleteById(id);
+    public void deleteById(long userId) {
+        if (!userRepositoryDb.existsById(userId))
+            throw new EntityNotFoundException("User", userId);
+        userRepositoryDb.deleteById(userId);
     }
 }

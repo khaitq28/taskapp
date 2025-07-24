@@ -26,10 +26,10 @@ public class UserResource {
         return ResponseEntity.ok(manager.getUsersWithTasks());
     }
 
-    @Operation(summary = "Get user by ID")
+    @Operation(summary = "Get user and tasks by User ID")
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") long id) {
-        return ResponseEntity.ok(manager.getUserTasksById(id));
+        return ResponseEntity.ok(manager.getUserWithTasksById(id));
     }
 
     @PostMapping()

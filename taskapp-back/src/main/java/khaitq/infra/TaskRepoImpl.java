@@ -1,7 +1,7 @@
 package khaitq.infra;
 
-import khaitq.domain.Task;
-import khaitq.domain.TaskRepository;
+import khaitq.domain.task.Task;
+import khaitq.domain.task.TaskRepository;
 import khaitq.infra.persitence.TaskEntity;
 import khaitq.infra.persitence.TaskRepositoryDb;
 import org.modelmapper.ModelMapper;

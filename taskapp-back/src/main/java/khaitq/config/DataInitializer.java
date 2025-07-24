@@ -21,28 +21,28 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         int taskCount = 1;
-        for (int i = 1; i < 11; i++) {
-            BaseUserDto user = BaseUserDto.builder()
-                    .name("User " + i)
-                    .email("user" + i + "@example.com")
-                    .role(i % 2 == 0 ? "USER" : "ADMIN")
-                    .build();
-            UserDto createdUser = userManager.save(user);
-
-            for (int j = 0; j < 10; j++) {
-                String status = j % 2 == 0 ? "DOING" : "DONE";
-                CreateUpdateTaskDto task = CreateUpdateTaskDto.builder()
-                        .title("Task " + taskCount)
-                        .des("Description for task " + taskCount)
-                        .status(status)
-                        .build();
-                taskCount++;
-                if (status.equals("DONE")) {
-                    task.setFinishedAt(LocalDateTime.now());
-                }
-                task.setCreatedAt(LocalDateTime.now());
-                taskManager.createTask(task,createdUser.getId());
-            }
-        }
+//        for (int i = 1; i < 11; i++) {
+//            BaseUserDto user = BaseUserDto.builder()
+//                    .name("User " + i)
+//                    .email("user" + i + "@example.com")
+//                    .role(i % 2 == 0 ? "USER" : "ADMIN")
+//                    .build();
+//            UserDto createdUser = userManager.save(user);
+//
+//            for (int j = 0; j < 10; j++) {
+//                String status = j % 2 == 0 ? "DOING" : "DONE";
+//                CreateUpdateTaskDto task = CreateUpdateTaskDto.builder()
+//                        .title("Task " + taskCount)
+//                        .des("Description for task " + taskCount)
+//                        .status(status)
+//                        .build();
+//                taskCount++;
+//                if (status.equals("DONE")) {
+//                    task.setFinishedAt(LocalDateTime.now());
+//                }
+//                task.setCreatedAt(LocalDateTime.now());
+//                taskManager.createTask(task,createdUser.getId());
+//            }
+//        }
     }
 }

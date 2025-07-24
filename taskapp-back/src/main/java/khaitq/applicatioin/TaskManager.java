@@ -1,9 +1,10 @@
 package khaitq.applicatioin;
 
 import jakarta.annotation.PostConstruct;
-import khaitq.domain.Task;
-import khaitq.domain.TaskRepository;
-import khaitq.domain.UserRepository;
+import khaitq.domain.exception.EntityNotFoundException;
+import khaitq.domain.task.Task;
+import khaitq.domain.task.TaskRepository;
+import khaitq.domain.user.UserRepository;
 import khaitq.rest.dto.CreateUpdateTaskDto;
 import khaitq.rest.dto.TaskDto;
 import lombok.AllArgsConstructor;
@@ -22,13 +23,14 @@ public class TaskManager {
     private final ModelMapper modelMapper = new ModelMapper();
 
     public List<TaskDto> getByUserId(long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User", userId));
         return taskRepository.findByUserId(userId).stream()
                 .map(e -> modelMapper.map(e, TaskDto.class))
                 .toList();
     }
 
     public TaskDto createTask(CreateUpdateTaskDto dto, Long userId) {
-        userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User", userId));
         Task task = modelMapper.map(dto, Task.class);
         task.setId(null);
         task.setUserId(userId);
@@ -38,7 +40,7 @@ public class TaskManager {
 
     public TaskDto updateTask(long id, CreateUpdateTaskDto dto) {
         Task task = taskRepository.findById(id);
-        if (task == null) throw new RuntimeException("Task not found with id: " + id);
+        if (task == null) throw new EntityNotFoundException("Task",id);
         modelMapper.map(dto, task);
         task.setId(id);
         task = taskRepository.save(task);
@@ -50,15 +52,15 @@ public class TaskManager {
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
     }
 
-    public TaskDto getById(long id) {
+    public TaskDto getById(long id) throws EntityNotFoundException {
         Task task = taskRepository.findById(id);
-        if (task == null) throw new RuntimeException("Task not found with id: " + id);
+        if (task == null) throw new EntityNotFoundException("Task ", id);
         return modelMapper.map(task, TaskDto.class);
     }
 
     public void deleteTask(long id) {
         Task task = taskRepository.findById(id);
-        if (task == null) throw new RuntimeException("Task not found with id: " + id);
+        if (task == null) throw new EntityNotFoundException("Task ", id);
         taskRepository.delete(task);
     }
 }

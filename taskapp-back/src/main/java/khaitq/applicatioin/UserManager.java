@@ -1,9 +1,10 @@
 package khaitq.applicatioin;
 
-import khaitq.domain.Task;
-import khaitq.domain.TaskRepository;
-import khaitq.domain.User;
-import khaitq.domain.UserRepository;
+import khaitq.domain.exception.EntityNotFoundException;
+import khaitq.domain.task.Task;
+import khaitq.domain.task.TaskRepository;
+import khaitq.domain.user.User;
+import khaitq.domain.user.UserRepository;
 import khaitq.rest.dto.BaseUserDto;
 import khaitq.rest.dto.UserDto;
 import khaitq.rest.dto.UserTaskDto;
@@ -42,9 +43,9 @@ public class UserManager {
     }
 
 
-    public UserTaskDto getUserTasksById(long id) {
+    public UserTaskDto getUserWithTasksById(long id) throws EntityNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("User", id));
         List<Task> tasks = taskRepository.findByUserId(id);
         return UserTaskDto.builder()
                 .user(modelMapper.map(user, UserDto.class))
