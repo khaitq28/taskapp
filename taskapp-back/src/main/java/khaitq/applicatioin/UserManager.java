@@ -53,12 +53,12 @@ public class UserManager {
                 .build();
     }
 
-    public void deleteUser(long id) {
-        // delete all tasks associated with the user
-        List<Task> tasks = taskRepository.findByUserId(id);
+    public void deleteUser(long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User", userId));
+        List<Task> tasks = taskRepository.findByUserId(userId);
         for (Task task : tasks) {
             taskRepository.delete(task);
         }
-        userRepository.deleteById(id);
+        userRepository.deleteById(userId);
     }
 }

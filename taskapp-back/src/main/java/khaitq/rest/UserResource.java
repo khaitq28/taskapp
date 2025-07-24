@@ -8,7 +8,6 @@ import khaitq.applicatioin.UserManager;
 import khaitq.rest.dto.BaseUserDto;
 import khaitq.rest.dto.UserTaskDto;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,12 +39,8 @@ public class UserResource {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
-        try {
-            manager.deleteUser(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        manager.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
