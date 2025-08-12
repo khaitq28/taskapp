@@ -41,4 +41,4 @@ jobs:
     - name: Build React app
       run: |
         cd taskapp-front
-        npm run build
+        npm install
