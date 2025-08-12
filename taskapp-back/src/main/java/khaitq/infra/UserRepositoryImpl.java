@@ -37,7 +37,11 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findById(UserId id) {
         return Optional.of(userRepositoryDb.findById(id.getValue()))
-                .map(e -> modelMapper.map(e, User.class));
+                .map(e -> {
+                   User user =  modelMapper.map(e.get(), User.class);
+                   user.setUserId(new UserId(e.get().getId()));
+                     return user;
+                });
     }
 
     @Override

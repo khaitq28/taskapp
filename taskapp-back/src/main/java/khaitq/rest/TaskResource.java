@@ -31,9 +31,7 @@ public class TaskResource {
 
     @PostMapping()
     @Operation(summary = "Create a new task for user", description = "This endpoint allows you to add a new task to an existing user by their ID.")
-    public ResponseEntity<TaskDto> addTaskToUser(@Parameter(name = "userId", description = "ID of the user", required = true)
-                                                     @PathVariable("userId") Long userId,
-                                                     @Valid @RequestBody CreateUpdateTaskDto dto) {
+    public ResponseEntity<TaskDto> addTaskToUser(@Valid @RequestBody CreateUpdateTaskDto dto) {
         TaskDto ret = taskManager.createTask(dto);
         return ResponseEntity.ok(ret);
     }

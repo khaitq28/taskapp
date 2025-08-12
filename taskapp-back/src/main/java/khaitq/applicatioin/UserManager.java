@@ -54,7 +54,12 @@ public class UserManager {
         List<Task> tasks = taskRepository.findByUserId(new UserId(id));
         return UserTaskDto.builder()
                 .user(modelMapper.map(user, UserDto.class))
-                .tasks(tasks.stream().map(task -> modelMapper.map(task, TaskDto.class)).toList())
+                .tasks(tasks.stream().map(task -> {
+                    TaskDto taskDto =  modelMapper.map(task, TaskDto.class);
+                    taskDto.setTaskId(task.getTaskId().getValue());
+                    taskDto.setUserId(task.getUserId().getValue());
+                    return taskDto;
+                }).toList())
                 .build();
     }
 

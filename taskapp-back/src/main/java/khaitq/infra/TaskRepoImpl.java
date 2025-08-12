@@ -33,7 +33,12 @@ public class TaskRepoImpl implements TaskRepository {
     @Override
     public List<Task> findByUserId(UserId userId) {
         return repositoryDb.findByUserId(userId.getValue()).stream()
-                .map(e -> modelMapper.map(e, Task.class))
+                .map(e -> {
+                    Task task = modelMapper.map(e, Task.class);
+                    task.setTaskId(new TaskId(e.getId()));
+                    task.setUserId(new UserId(e.getUserId()));
+                    return task;
+                })
                 .toList();
     }
 
