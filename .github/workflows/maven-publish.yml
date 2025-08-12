@@ -40,4 +40,4 @@ jobs:
         run: |
           cd taskapp-front
           npm ci
-          npm run build
+          npm install
