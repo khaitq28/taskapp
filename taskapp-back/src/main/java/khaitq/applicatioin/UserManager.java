@@ -31,9 +31,7 @@ public class UserManager {
         User user = modelMapper.map(dto, User.class);
         user.setUserId(new UserId(UUID.randomUUID().toString()));
         user = userRepository.save(user);
-        UserDto userDto = modelMapper.map(user, UserDto.class);
-        userDto.setId(user.getUserId().getValue());
-        return userDto;
+        return modelMapper.map(user, UserDto.class);
     }
 
     public List<UserTaskDto> getUsersWithTasks() {
@@ -47,6 +45,15 @@ public class UserManager {
         }).toList();
     }
 
+    public List<UserDto> getUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> {
+            UserDto userDto = modelMapper.map(user, UserDto.class);
+            userDto.setId(user.getUserId().getValue());
+            return userDto;
+        }).toList();
+    }
+
 
     public UserTaskDto getUserWithTasksById(String id) throws EntityNotFoundException {
         User user = userRepository.findById(new UserId(id))
@@ -54,12 +61,7 @@ public class UserManager {
         List<Task> tasks = taskRepository.findByUserId(new UserId(id));
         return UserTaskDto.builder()
                 .user(modelMapper.map(user, UserDto.class))
-                .tasks(tasks.stream().map(task -> {
-                    TaskDto taskDto =  modelMapper.map(task, TaskDto.class);
-                    taskDto.setTaskId(task.getTaskId().getValue());
-                    taskDto.setUserId(task.getUserId().getValue());
-                    return taskDto;
-                }).toList())
+                .tasks(tasks.stream().map(task -> modelMapper.map(task, TaskDto.class)).toList())
                 .build();
     }
 

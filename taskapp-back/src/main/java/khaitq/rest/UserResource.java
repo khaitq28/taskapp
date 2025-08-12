@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import khaitq.applicatioin.UserManager;
 import khaitq.rest.dto.BaseUserDto;
+import khaitq.rest.dto.UserDto;
 import khaitq.rest.dto.UserTaskDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,14 @@ public class UserResource {
     private final UserManager manager;
 
     @GetMapping
-    public ResponseEntity<List<UserTaskDto>> getAllUsers() {
-        return ResponseEntity.ok(manager.getUsersWithTasks());
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return ResponseEntity.ok(manager.getUsers());
     }
 
     @Operation(summary = "Get user and tasks by User ID")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") String id) {
-        return ResponseEntity.ok(manager.getUserWithTasksById(id));
+    public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") String userId) {
+        return ResponseEntity.ok(manager.getUserWithTasksById(userId));
     }
 
     @PostMapping()
