@@ -9,8 +9,10 @@ public interface UserRepository {
 
     User save(User user);
 
-    Optional<User> findById(long id);
+    Optional<User> findById(UserId userId);
 
-    void deleteById(long id);
+    void deleteById(UserId userId);
+
+    long count();
 
 }

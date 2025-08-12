@@ -27,7 +27,7 @@ public class UserResource {
 
     @Operation(summary = "Get user and tasks by User ID")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") long id) {
+    public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") String id) {
         return ResponseEntity.ok(manager.getUserWithTasksById(id));
     }
 
@@ -38,7 +38,7 @@ public class UserResource {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
         manager.deleteUser(id);
         return ResponseEntity.noContent().build();
     }

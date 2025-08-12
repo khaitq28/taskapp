@@ -10,5 +10,5 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto extends CreateUpdateTaskDto {
-    private Long id;
+    private String taskId;
 }

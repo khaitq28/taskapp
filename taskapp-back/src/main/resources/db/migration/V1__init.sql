@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS users (
-     id SERIAL PRIMARY KEY,
+     id VARCHAR(50) PRIMARY KEY,
      name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     role VARCHAR(20)
     );
 
 CREATE TABLE IF NOT EXISTS tasks (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
+    id VARCHAR(50) PRIMARY KEY,
+    user_id VARCHAR(50) NOT NULL,
     title VARCHAR(100) NOT NULL,
     des TEXT,
     status VARCHAR(20) DEFAULT 'pending',

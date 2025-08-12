@@ -9,6 +9,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class UserDto extends BaseUserDto {
-    private Long id;
+    private String id;
 
 }

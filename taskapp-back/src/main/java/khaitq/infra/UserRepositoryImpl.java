@@ -2,6 +2,7 @@ package khaitq.infra;
 
 import khaitq.domain.exception.EntityNotFoundException;
 import khaitq.domain.user.User;
+import khaitq.domain.user.UserId;
 import khaitq.domain.user.UserRepository;
 import khaitq.infra.persitence.UserEntity;
 import khaitq.infra.persitence.UserRepositoryDb;
@@ -21,24 +22,33 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findAll() {
         List<UserEntity> entities = userRepositoryDb.findAll();
-        return entities.stream().map(e -> modelMapper.map(e, User.class)).toList();
+        return entities.stream().map(e -> {
+            User user = modelMapper.map(e, User.class);
+            user.setUserId(new UserId(e.getId()));
+            return user;
+        }).toList();
     }
     @Override
     public User save(User user) {
         UserEntity entity = modelMapper.map(user, UserEntity.class);
-        entity = userRepositoryDb.save(entity);
-        return modelMapper.map(entity, User.class);
+        userRepositoryDb.save(entity);
+        return user;
     }
     @Override
-    public Optional<User> findById(long id) {
-        return Optional.of(userRepositoryDb.findById(id))
+    public Optional<User> findById(UserId id) {
+        return Optional.of(userRepositoryDb.findById(id.getValue()))
                 .map(e -> modelMapper.map(e, User.class));
     }
 
     @Override
-    public void deleteById(long userId) {
-        if (!userRepositoryDb.existsById(userId))
+    public void deleteById(UserId userId) {
+        if (!userRepositoryDb.existsById(userId.getValue()))
             throw new EntityNotFoundException("User", userId);
-        userRepositoryDb.deleteById(userId);
+        userRepositoryDb.deleteById(userId.getValue());
+    }
+
+    @Override
+    public long count() {
+        return userRepositoryDb.count();
     }
 }

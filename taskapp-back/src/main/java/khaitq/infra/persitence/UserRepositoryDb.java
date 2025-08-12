@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserRepositoryDb extends JpaRepository<UserEntity, Long> {
+public interface UserRepositoryDb extends JpaRepository<UserEntity, String> {
 
 
     @Query("SELECT u FROM UserEntity u WHERE u.id = :id")

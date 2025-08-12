@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 public class TaskEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false)
+    private String id;
+    @Column(nullable = false)
     private String title;
     private String des;
     private String status;
@@ -22,17 +23,16 @@ public class TaskEntity {
     private LocalDateTime createdAt;
     private LocalDateTime finishedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @Column(nullable = false)
+    private String userId;
 
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-        if (status != null && status.equalsIgnoreCase("DONE") && finishedAt == null) {
-            finishedAt = LocalDateTime.now();
-        }
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        if (createdAt == null) {
+//            createdAt = LocalDateTime.now();
+//        }
+//        if (status != null && status.equalsIgnoreCase("DONE") && finishedAt == null) {
+//            finishedAt = LocalDateTime.now();
+//        }
+//    }
 }

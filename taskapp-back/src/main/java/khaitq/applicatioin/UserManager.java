@@ -4,6 +4,7 @@ import khaitq.domain.exception.EntityNotFoundException;
 import khaitq.domain.task.Task;
 import khaitq.domain.task.TaskRepository;
 import khaitq.domain.user.User;
+import khaitq.domain.user.UserId;
 import khaitq.domain.user.UserRepository;
 import khaitq.rest.dto.BaseUserDto;
 import khaitq.rest.dto.UserDto;
@@ -14,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -27,14 +29,17 @@ public class UserManager {
 
     public UserDto save(BaseUserDto dto) {
         User user = modelMapper.map(dto, User.class);
+        user.setUserId(new UserId(UUID.randomUUID().toString()));
         user = userRepository.save(user);
-        return modelMapper.map(user, UserDto.class);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setId(user.getUserId().getValue());
+        return userDto;
     }
 
     public List<UserTaskDto> getUsersWithTasks() {
         List<User> users = userRepository.findAll();
         return users.stream().map(user -> {
-            List<Task> tasks = taskRepository.findByUserId(user.getId());
+            List<Task> tasks = taskRepository.findByUserId(user.getUserId());
             return UserTaskDto.builder()
                     .user(modelMapper.map(user, UserDto.class))
                     .tasks(tasks.stream().map(task -> modelMapper.map(task, TaskDto.class)).toList())
@@ -43,22 +48,27 @@ public class UserManager {
     }
 
 
-    public UserTaskDto getUserWithTasksById(long id) throws EntityNotFoundException {
-        User user = userRepository.findById(id)
+    public UserTaskDto getUserWithTasksById(String id) throws EntityNotFoundException {
+        User user = userRepository.findById(new UserId(id))
                 .orElseThrow(() -> new EntityNotFoundException("User", id));
-        List<Task> tasks = taskRepository.findByUserId(id);
+        List<Task> tasks = taskRepository.findByUserId(new UserId(id));
         return UserTaskDto.builder()
                 .user(modelMapper.map(user, UserDto.class))
                 .tasks(tasks.stream().map(task -> modelMapper.map(task, TaskDto.class)).toList())
                 .build();
     }
 
-    public void deleteUser(long userId) {
-        userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User", userId));
-        List<Task> tasks = taskRepository.findByUserId(userId);
+    public void deleteUser(String userId) {
+        UserId id = new UserId(userId);
+        userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", userId));
+        List<Task> tasks = taskRepository.findByUserId(id);
         for (Task task : tasks) {
-            taskRepository.delete(task);
+            taskRepository.delete(task.getTaskId());
         }
-        userRepository.deleteById(userId);
+        userRepository.deleteById(id);
+    }
+
+    public long countUsers() {
+        return userRepository.count();
     }
 }

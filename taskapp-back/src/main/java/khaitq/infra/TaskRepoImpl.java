@@ -1,7 +1,9 @@
 package khaitq.infra;
 
 import khaitq.domain.task.Task;
+import khaitq.domain.task.TaskId;
 import khaitq.domain.task.TaskRepository;
+import khaitq.domain.user.UserId;
 import khaitq.infra.persitence.TaskEntity;
 import khaitq.infra.persitence.TaskRepositoryDb;
 import org.modelmapper.ModelMapper;
@@ -24,27 +26,35 @@ public class TaskRepoImpl implements TaskRepository {
     }
 
     @Override
-    public Task findById(long id) {
-        return repositoryDb.findById(id).map(e -> modelMapper.map(e, Task.class)).orElse(null);
+    public Task findById(TaskId taskId) {
+        return repositoryDb.findById(taskId.getValue()).map(e -> modelMapper.map(e, Task.class)).orElse(null);
     }
 
     @Override
-    public List<Task> findByUserId(long userId) {
-        return repositoryDb.findByUserId(userId).stream()
+    public List<Task> findByUserId(UserId userId) {
+        return repositoryDb.findByUserId(userId.getValue()).stream()
                 .map(e -> modelMapper.map(e, Task.class))
                 .toList();
     }
 
     @Override
     public Task save(Task task) {
-        TaskEntity entity  = modelMapper.map(task, TaskEntity.class);
-        return modelMapper.map(
-                repositoryDb.save(entity),
-                Task.class);
+//        TaskEntity entity  = modelMapper.map(task, TaskEntity.class);
+        TaskEntity entity = new TaskEntity();
+        entity.setTitle(task.getTitle());
+        entity.setDes(task.getDes());
+        entity.setStatus(task.getStatus());
+        entity.setCreatedAt(task.getCreatedAt());
+        entity.setFinishedAt(task.getFinishedAt());
+        entity.setId(task.getTaskId().getValue());
+        entity.setUserId(task.getUserId().getValue());
+
+        repositoryDb.save(entity);
+        return task;
     }
 
     @Override
-    public void delete(Task task) {
-        repositoryDb.deleteById(task.getId());
+    public void delete(TaskId taskId) {
+        repositoryDb.deleteById(taskId.getValue());
     }
 }
