@@ -46,6 +46,12 @@ public class TaskRepoImpl implements TaskRepository {
 
     @Override
     public Task save(Task task) {
+        TaskEntity entity = taskToEntity(task);
+        repositoryDb.save(entity);
+        return task;
+    }
+
+    private static TaskEntity taskToEntity(Task task) {
         TaskEntity entity = new TaskEntity();
         entity.setTitle(task.getTitle());
         entity.setDes(task.getDes());
@@ -54,9 +60,7 @@ public class TaskRepoImpl implements TaskRepository {
         entity.setFinishedAt(task.getFinishedAt());
         entity.setId(task.getTaskId().getValue());
         entity.setUserId(task.getUserId().getValue());
-
-        repositoryDb.save(entity);
-        return task;
+        return entity;
     }
 
     @Override
