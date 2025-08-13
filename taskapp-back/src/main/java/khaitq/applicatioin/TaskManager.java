@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +35,13 @@ public class TaskManager {
                 .toList();
     }
 
+    public List<TaskDto> getAllTasks() {
+        return taskRepository.findAll().stream()
+                .map(e -> modelMapper.map(e, TaskDto.class))
+                .toList();
+    }
+
+    @Transactional
     public TaskDto createTask(CreateUpdateTaskDto dto) {
         userRepository.findById(new UserId(dto.getUserId())).orElseThrow(() -> new EntityNotFoundException("User", dto.getUserId()));
         Task task = modelMapper.map(dto, Task.class);
@@ -43,12 +51,18 @@ public class TaskManager {
         return modelMapper.map(task, TaskDto.class);
     }
 
+
+    @Transactional
     public TaskDto updateTask(String id, CreateUpdateTaskDto dto) {
         TaskId taskId = new TaskId(id);
         Task task = taskRepository.findById(taskId);
         if (task == null) throw new EntityNotFoundException("Task",id);
         modelMapper.map(dto, task);
-        task = taskRepository.save(task);
+        if (dto.getUserId() != null) {
+            userRepository.findById(new UserId(dto.getUserId())).orElseThrow(() -> new EntityNotFoundException("User", dto.getUserId()));
+            task.setUserId(new UserId(dto.getUserId()));
+        }
+        taskRepository.save(task);
         return modelMapper.map(task, TaskDto.class);
     }
 
@@ -64,6 +78,7 @@ public class TaskManager {
         return modelMapper.map(task, TaskDto.class);
     }
 
+    @Transactional
     public void deleteTask(String id) {
         TaskId taskId = new TaskId(id);
         Task task = taskRepository.findById(taskId);

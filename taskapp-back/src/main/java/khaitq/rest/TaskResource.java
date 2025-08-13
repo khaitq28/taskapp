@@ -17,15 +17,14 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Tag(name = "Task Management")
-@RequestMapping(path = "/api/v1/users/{userId}/tasks")
+@RequestMapping(path = "/api/v1/tasks")
 public class TaskResource {
     private final TaskManager taskManager;
 
     @Operation(summary = "Get all tasks", description = "This endpoint retrieves all tasks of User.")
     @GetMapping()
-    public ResponseEntity<List<TaskDto>> getTasksOfUser(@Parameter(name = "userId", description = "ID of the user", required = true)
-                                                         @PathVariable("userId") String userId) {
-        return ResponseEntity.ok(taskManager.getByUserId(userId));
+    public ResponseEntity<List<TaskDto>> getTasksOfUsers() {
+        return ResponseEntity.ok(taskManager.getAllTasks());
     }
 
 

@@ -21,30 +21,31 @@ public class TaskRepoImpl implements TaskRepository {
     @Override
     public List<Task> findAll() {
         return repositoryDb.findAll().stream()
-                .map(e -> modelMapper.map(e, Task.class))
+                .map(this::entityToTask)
                 .toList();
     }
 
     @Override
     public Task findById(TaskId taskId) {
-        return repositoryDb.findById(taskId.getValue()).map(e -> modelMapper.map(e, Task.class)).orElse(null);
+        return repositoryDb.findById(taskId.getValue()).map(this::entityToTask).orElse(null);
+    }
+
+    private Task entityToTask(TaskEntity e) {
+        Task task = modelMapper.map(e, Task.class);
+        task.setTaskId(new TaskId(e.getId()));
+        task.setUserId(new UserId(e.getUserId()));
+        return task;
     }
 
     @Override
     public List<Task> findByUserId(UserId userId) {
         return repositoryDb.findByUserId(userId.getValue()).stream()
-                .map(e -> {
-                    Task task = modelMapper.map(e, Task.class);
-                    task.setTaskId(new TaskId(e.getId()));
-                    task.setUserId(new UserId(e.getUserId()));
-                    return task;
-                })
+                .map(this::entityToTask)
                 .toList();
     }
 
     @Override
     public Task save(Task task) {
-//        TaskEntity entity  = modelMapper.map(task, TaskEntity.class);
         TaskEntity entity = new TaskEntity();
         entity.setTitle(task.getTitle());
         entity.setDes(task.getDes());
@@ -61,5 +62,10 @@ public class TaskRepoImpl implements TaskRepository {
     @Override
     public void delete(TaskId taskId) {
         repositoryDb.deleteById(taskId.getValue());
+    }
+
+    @Override
+    public void deleteByUserId(UserId userId) {
+        repositoryDb.deleteByUserId(userId.getValue());
     }
 }

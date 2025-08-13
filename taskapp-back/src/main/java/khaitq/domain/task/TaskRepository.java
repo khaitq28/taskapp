@@ -15,4 +15,6 @@ public interface TaskRepository {
     Task save(Task task);
 
     void delete(TaskId taskId);
+
+    void deleteByUserId(UserId userId);
 }

@@ -13,6 +13,7 @@ import khaitq.rest.dto.TaskDto;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class UserManager {
 
     private final ModelMapper modelMapper = new ModelMapper();
 
+    @Transactional
     public UserDto save(BaseUserDto dto) {
         User user = modelMapper.map(dto, User.class);
         user.setUserId(new UserId(UUID.randomUUID().toString()));
@@ -65,13 +67,12 @@ public class UserManager {
                 .build();
     }
 
+
+    @Transactional
     public void deleteUser(String userId) {
         UserId id = new UserId(userId);
         userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", userId));
-        List<Task> tasks = taskRepository.findByUserId(id);
-        for (Task task : tasks) {
-            taskRepository.delete(task.getTaskId());
-        }
+        taskRepository.deleteByUserId(id);
         userRepository.deleteById(id);
     }
 
