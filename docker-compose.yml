@@ -10,5 +10,16 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d  # Mount init scripts
 
+  wso2apim:
+    image: wso2/wso2am:latest
+    container_name: wso2apim
+    ports:
+      - "9443:9443"   # Console/Publisher/Dev Portal (HTTPS)
+      - "8243:8243"   # API Gateway (HTTPS)
+      - "8280:8280" # (tùy chọn) Gateway HTTP, nên bỏ để prod-like
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # giúp APIM gọi API trên host Linux
+    restart: unless-stopped
+
 volumes:
   postgres_data:
