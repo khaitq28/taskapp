@@ -24,5 +24,7 @@ export const TaskService = {
 
     deleteTask(taskId: string) {
         return api.delete(TASK_BASE_URL + `/${taskId}`);
-    }
+    },
+
+
 };

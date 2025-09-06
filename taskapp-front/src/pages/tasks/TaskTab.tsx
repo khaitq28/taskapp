@@ -5,7 +5,7 @@ import { Delete } from "@mui/icons-material";
 
 export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                         {   tasks: Task[],
-                             handleToggleTask: (id:string,e:any) => void,
+                             handleToggleTask: (task:Task,e:any) => void,
                              deleteTask: (id:string) => void,
                              showTaskDetail: (id:string) =>void}
                         ) => {
@@ -29,7 +29,7 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                                 disableRipple
                                 color="primary"
                                 className="MuiCheckbox-root"
-                                onClick={(e) => handleToggleTask(task.taskId, e)}
+                                onClick={(e) => handleToggleTask(task, e)}
                             />
                             <ListItemText
                                 primary={task.title}

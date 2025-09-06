@@ -41,13 +41,12 @@ export const Tasks = () => {
     }
   };
 
-  const handleToggleTask = (taskId: string, event: React.MouseEvent) => {
+  const handleToggleTask = (task: Task, event: React.MouseEvent) => {
     if ((event.target as HTMLElement).closest('.MuiCheckbox-root')) {
-      setTasks(tasks.map(task =>
-        task.taskId === taskId ? { ...task, completed: !task.completed } : task
-      ));
+      task.status =  task.status === "DOING" ? "DONE" : "DOING";
+      TaskService.updateTask(task.taskId, task).then(() => fetchAllTasks().catch(err=> console.log(err)));
     } else {
-      navigate(`/tasks/${taskId}`);
+      navigate(`/tasks/${task.taskId}`);
     }
   };
 
