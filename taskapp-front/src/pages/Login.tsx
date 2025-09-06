@@ -30,7 +30,7 @@ export const Login = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    const handLogin = (id : number, role: string) => {
+    const handLogin = (id : string, role: string) => {
         login("FAKE_TOKEN",
             {
                 id: id,
@@ -52,8 +52,8 @@ export const Login = () => {
         <Box>
             {!isAuthenticated && (
                 <DialogActions>
-                    <Button variant="contained" onClick={() => handLogin(1, "ADMIN")}>Fake Login as Admin</Button>
-                    <Button variant="contained" onClick={() => handLogin(2, "MEMBER")}>Fake Login as Member</Button>
+                    <Button variant="contained" onClick={() => handLogin('b5cf61a4-9e1f-43c3-92c9-cfbc1af7b1d4', "ADMIN")}>Fake Login as Admin</Button>
+                    <Button variant="contained" onClick={() => handLogin('915d92b9-ee02-4131-98c7-5ce67030739a', "MEMBER")}>Fake Login as Member</Button>
                 </DialogActions>
             )}
 

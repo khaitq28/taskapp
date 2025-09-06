@@ -36,21 +36,22 @@ export const Tasks = () => {
     const currentUserId = auth.userLogin?.id
     const userData = await UserService.getUserById(currentUserId);
     if (userData.data.tasks) {
+      console.log(userData.data.tasks);
       setTasks(userData.data.tasks);
     }
   };
 
-  const handleToggleTask = (taskId: number, event: React.MouseEvent) => {
+  const handleToggleTask = (taskId: string, event: React.MouseEvent) => {
     if ((event.target as HTMLElement).closest('.MuiCheckbox-root')) {
       setTasks(tasks.map(task =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
+        task.taskId === taskId ? { ...task, completed: !task.completed } : task
       ));
     } else {
       navigate(`/tasks/${taskId}`);
     }
   };
 
-  const deleteTask = (taskId: number) => {
+  const deleteTask = (taskId: string) => {
 
     TaskService.deleteTask(taskId).then(() => {
       fetchAllTasks().catch(err=> console.log(err));
@@ -59,25 +60,25 @@ export const Tasks = () => {
     setOpenNotif(true);
   }
 
-  const showTaskDetail = (taskId: number) => {
+  const showTaskDetail = (taskId: string) => {
     navigate(`/tasks/${taskId}`);
   }
 
   const handleAddNew = (title: string) => {
-    const maxId= getMaxId(tasks);
-    const newTask: Task = {
-      id: maxId,
-      user_id: 1,
-      title: title,
-      completed: false,
-      createdAt: new Date().toISOString(),
-      finishedAt: new Date().toISOString(),
-      des: '',
-      status: ''
-    }
-    setTasks([...tasks, newTask]);
-    setNotifMessage('Task "' + title + '" was added successfully');
-    setOpenNotif(true);
+    // const maxId= getMaxId(tasks);
+    // const newTask: Task = {
+    //   id: maxId,
+    //   user_id: 'b5cf61a4-9e1f-43c3-92c9-cfbc1af7b1d4',
+    //   title: title,
+    //   completed: false,
+    //   createdAt: new Date().toISOString(),
+    //   finishedAt: new Date().toISOString(),
+    //   des: '',
+    //   status: ''
+    // }
+    // setTasks([...tasks, newTask]);
+    // setNotifMessage('Task "' + title + '" was added successfully');
+    // setOpenNotif(true);
   }
 
   const handleCloseNotif = () => {
@@ -88,27 +89,27 @@ export const Tasks = () => {
   const getMaxId = (tasks: Task[]): number => {
     let maxId: number = 0;
     tasks.forEach(task => {
-      maxId = Math.max(maxId, task.id + 1);
+      maxId = Math.max(maxId, task.taskId + 1);
     })
     return maxId;
   }
 
   const generateTasks = () => {
-    const newTasks: Task[] = [];
-    const maxId = getMaxId(tasks);
-    for (let i = 0; i< 10; i++) {
-      newTasks.push({
-        id: maxId + i,
-        title: 'Title task ' + (maxId + i),
-        user_id: 1,
-        completed: false,
-        finishedAt: new Date().toISOString(),
-        des: '',
-        status: ''
-      });
-    }
-    console.log(newTasks);
-    setTasks([...tasks, ...newTasks]);
+    // const newTasks: Task[] = [];
+    // const maxId = getMaxId(tasks);
+    // for (let i = 0; i< 10; i++) {
+    //   newTasks.push({
+    //     id: maxId + i,
+    //     title: 'Title task ' + (maxId + i),
+    //     user_id: 1,
+    //     completed: false,
+    //     finishedAt: new Date().toISOString(),
+    //     des: '',
+    //     status: ''
+    //   });
+    // }
+    // console.log(newTasks);
+    // setTasks([...tasks, ...newTasks]);
   }
 
   const searchHandle = (keyWord: string) => {

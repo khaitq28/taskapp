@@ -5,9 +5,9 @@ import { Delete } from "@mui/icons-material";
 
 export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                         {   tasks: Task[],
-                             handleToggleTask: (id:number,e:any) => void,
-                             deleteTask: (id:number) => void,
-                             showTaskDetail: (id:number) =>void}
+                             handleToggleTask: (id:string,e:any) => void,
+                             deleteTask: (id:string) => void,
+                             showTaskDetail: (id:string) =>void}
                         ) => {
 
     return (
@@ -17,7 +17,7 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                     <>
                     {tasks.map((task) => (
                         <ListItem
-                            key={task.id}
+                            key={task.taskId}
                             component="div"
                             sx={{
                                 cursor: 'pointer'
@@ -29,13 +29,13 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                                 disableRipple
                                 color="primary"
                                 className="MuiCheckbox-root"
-                                onClick={(e) => handleToggleTask(task.id, e)}
+                                onClick={(e) => handleToggleTask(task.taskId, e)}
                             />
                             <ListItemText
                                 primary={task.title}
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    showTaskDetail(task.id)}
+                                    showTaskDetail(task.taskId)}
                                 }
                                 sx={{
                                     textDecoration: task.completed ? 'line-through' : 'none',
@@ -48,7 +48,7 @@ export const TaskTab = ({tasks, handleToggleTask,deleteTask, showTaskDetail}:
                             <IconButton
                                 onClick={(e) => {
                                     e.stopPropagation(); // Prevent triggering the ListItem onClick
-                                    deleteTask(task.id);
+                                    deleteTask(task.taskId);
                                 }}
                                 edge="end"
                                 aria-label="delete">

@@ -6,7 +6,7 @@ import {Delete} from "@mui/icons-material";
 
 export const UsersTable = ({users, deleteUser, addUser}: {
                     users: User[],
-                    deleteUser: (id:number) => void}) => {
+                    deleteUser: (id:string) => void}) => {
 
     useEffect(() => {
         console.log(users);

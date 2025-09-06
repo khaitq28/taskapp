@@ -34,7 +34,7 @@ export const AdminPage = () => {
 
     const fetchAllUsers = async () => {
         UserService.getAllUsers().then(data => {
-            setUsers(data.data.map(user => user.user));
+            setUsers(data.data);
         })
     };
 
@@ -42,7 +42,7 @@ export const AdminPage = () => {
         fetchAllUsers().catch(err=> console.log(err));
     }, []);
 
-    const deleteUser = (id: number) => {
+    const deleteUser = (id: string) => {
         let ok = window.confirm(`Are you sure you want to delete user with ID ${id}?`);
         if (!ok) return;
         UserService.deleteUser(id).then(() => {
@@ -55,9 +55,10 @@ export const AdminPage = () => {
     const handleSubmit = () => {
         console.log(formUser);
         const newUser: User = {
+            id: '',
             name: formUser.name,
             email: formUser.email,
-            role: formUser.role,
+            role: formUser.role
         };
         UserService.saveUser(newUser).then(() => {
             fetchAllUsers();

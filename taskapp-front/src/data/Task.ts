@@ -1,6 +1,6 @@
 export interface Task {
-  id: number;
-  user_id: number;
+  taskId: string;
+  userId: string;
   des: string;
   status: string;
   title: string;

@@ -5,7 +5,7 @@ const USER_BASE_URL = '/users';
 
 export const UserService = {
 
-    getUserById: (id: number | undefined) => {
+    getUserById: (id: string | undefined) => {
         return api.get<User>(USER_BASE_URL + `/${id}`);
     },
 
@@ -13,7 +13,7 @@ export const UserService = {
         return api.get<Object[]>(USER_BASE_URL);
     },
 
-    deleteUser(id: number) {
+    deleteUser(id: string) {
         return api.delete(USER_BASE_URL + `/${id}`);
     },
 

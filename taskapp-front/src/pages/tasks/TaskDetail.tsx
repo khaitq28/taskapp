@@ -41,7 +41,7 @@ export const TaskDetail = () => {
     if (!task || !editedTitle.trim()) return;
     task.title = editedTitle;
     task.des = des;
-    TaskService.updateTask(task.id, task).then(res => {
+    TaskService.updateTask(task.taskId, task).then(res => {
       const updatedTask: Task = res.data;
       setTask(updatedTask);
     }).catch(err => {
@@ -60,7 +60,7 @@ export const TaskDetail = () => {
         task.finishedAt = new Date().toISOString();
     }
     console.log(task);
-    TaskService.updateTask(task.id, task).then(res => {
+    TaskService.updateTask(task.taskId, task).then(res => {
       const newTask: Task = res.data;
       setTask(newTask);
     }).catch(err => {
