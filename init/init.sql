@@ -1,2 +1,4 @@
 CREATE ROLE admin WITH LOGIN PASSWORD 'admin';
 CREATE DATABASE taskapp OWNER admin;
+
+CREATE DATABASE keycloak;

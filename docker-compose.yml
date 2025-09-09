@@ -10,6 +10,23 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d  # Mount init scripts
 
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    command: ["start-dev"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
   wso2apim:
     image: wso2/wso2am:latest
     container_name: wso2apim
@@ -18,8 +35,11 @@ services:
       - "8243:8243"   # API Gateway (HTTPS)
       - "8280:8280" # (tùy chọn) Gateway HTTP, nên bỏ để prod-like
     extra_hosts:
-      - "host.docker.internal:host-gateway"  # giúp APIM gọi API trên host Linux
+      - "host.docker.internal:host-gateway"  #  APIM call API on host Linux
+    depends_on:
+      - keycloak
     restart: unless-stopped
+
 
 volumes:
   postgres_data:
