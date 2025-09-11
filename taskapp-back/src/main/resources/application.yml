@@ -42,6 +42,12 @@ spring:
         jdbc:
           batch_size: 100
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8081/realms/taskapp/protocol/openid-connect/certs
+
 
 logging:
   level:

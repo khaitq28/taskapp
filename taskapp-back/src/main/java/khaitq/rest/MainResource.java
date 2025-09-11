@@ -1,6 +1,7 @@
 package khaitq.rest;
 
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class MainResource {
 
     @GetMapping()
+    @PreAuthorize("hasRole('tasks_writer')")
     public String hello() {
         return "OK";
     }
