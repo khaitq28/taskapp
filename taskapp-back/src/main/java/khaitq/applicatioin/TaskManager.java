@@ -1,10 +1,13 @@
 package khaitq.applicatioin;
 
 import jakarta.annotation.PostConstruct;
+import khaitq.config.AuthManager;
+import khaitq.config.CurrentUserUtil;
 import khaitq.domain.exception.EntityNotFoundException;
 import khaitq.domain.task.Task;
 import khaitq.domain.task.TaskId;
 import khaitq.domain.task.TaskRepository;
+import khaitq.domain.user.User;
 import khaitq.domain.user.UserId;
 import khaitq.domain.user.UserRepository;
 import khaitq.rest.dto.CreateUpdateTaskDto;
@@ -27,6 +30,9 @@ public class TaskManager {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
+    private final AuthManager authManager;
+
+
     public List<TaskDto> getByUserId(String userId) {
         UserId id = new UserId(userId);
         userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", userId));
@@ -36,7 +42,14 @@ public class TaskManager {
     }
 
     public List<TaskDto> getAllTasks() {
-        return taskRepository.findAll().stream()
+        if (authManager.isAdmin())
+            return taskRepository.findAll().stream()
+                    .map(e -> modelMapper.map(e, TaskDto.class))
+                    .toList();
+
+        User user = userRepository.findByEmail(authManager.currentUserEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User", authManager.currentUserEmail()));
+        return taskRepository.findByUserId(user.getUserId()).stream()
                 .map(e -> modelMapper.map(e, TaskDto.class))
                 .toList();
     }

@@ -11,6 +11,9 @@ public interface UserRepository {
 
     Optional<User> findById(UserId userId);
 
+    Optional<User> findByEmail(String email);
+
+
     void deleteById(UserId userId);
 
     long count();

@@ -56,9 +56,8 @@ public class SecurityConfig {
     }
 
     private AbstractAuthenticationToken jwtAuthConverter(Jwt jwt) {
-        // 1) (tuỳ) lấy authorities từ scopes nếu bạn dùng thêm scope
         JwtGrantedAuthoritiesConverter scopesConv = new JwtGrantedAuthoritiesConverter();
-        scopesConv.setAuthorityPrefix("SCOPE_"); // sẽ tạo SCOPE_tasks.read,...
+        scopesConv.setAuthorityPrefix("SCOPE_");
         Collection<GrantedAuthority> authorities = new ArrayList<>(scopesConv.convert(jwt));
 
         Map<String, Object> realmAccess = jwt.getClaim("realm_access");

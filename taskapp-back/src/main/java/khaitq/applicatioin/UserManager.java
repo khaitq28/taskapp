@@ -79,4 +79,14 @@ public class UserManager {
     public long countUsers() {
         return userRepository.count();
     }
+
+    public UserTaskDto getUserWithTasksByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User", email));
+        List<Task> tasks = taskRepository.findByUserId(user.getUserId());
+        return UserTaskDto.builder()
+                .user(modelMapper.map(user, UserDto.class))
+                .tasks(tasks.stream().map(task -> modelMapper.map(task, TaskDto.class)).toList())
+                .build();
+    }
 }
