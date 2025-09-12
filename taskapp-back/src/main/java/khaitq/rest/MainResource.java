@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.*;
 public class MainResource {
 
     @GetMapping()
-    @PreAuthorize("hasRole('tasks_writer')")
     public String hello() {
-        return "OK";
+        return "Welcome to Task Management API";
     }
 
 }

@@ -28,6 +28,7 @@ public class SecurityConfig {
     @Value("${app.security.client-app-id:taskapp-frontend}")
     private String clientAppId;
     private static final String[] SWAGGER_WHITELIST = {
+            "/",
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs",
@@ -47,11 +48,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                                 .requestMatchers(SWAGGER_WHITELIST).permitAll()   // <— mở swagger
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-//                        .requestMatchers(HttpMethod.GET, "/api/v1/tasks/**").authenticated()
-//                        .requestMatchers(HttpMethod.PUT, "/api/v1/tasks/**").hasRole("task_reader")
-//                        .requestMatchers(HttpMethod.PATCH, "/api/v1/tasks/**").hasRole("task_reader")
-//                        .requestMatchers(HttpMethod.POST, "/api/v1/tasks/**").hasRole("task_reader")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(this::jwtAuthConverter)));
