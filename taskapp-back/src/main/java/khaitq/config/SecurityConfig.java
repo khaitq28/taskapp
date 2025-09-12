@@ -1,6 +1,7 @@
 package khaitq.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class SecurityConfig {
 
 
+    @Value("${app.security.client-app-id:taskapp-frontend}")
+    private String clientAppId;
     private static final String[] SWAGGER_WHITELIST = {
             "/swagger-ui.html",
             "/swagger-ui/**",
@@ -60,13 +63,9 @@ public class SecurityConfig {
         scopesConv.setAuthorityPrefix("SCOPE_");
         Collection<GrantedAuthority> authorities = new ArrayList<>(scopesConv.convert(jwt));
 
-        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
-        if (realmAccess != null && realmAccess.get("roles") instanceof Collection<?> roles) {
-            roles.forEach(r -> authorities.add(new SimpleGrantedAuthority("ROLE_" + r)));
-        }
-        String clientId = "taskapp-frontend";
         Map<String, Object> resAccess = jwt.getClaim("resource_access");
-        if (resAccess != null && resAccess.get(clientId) instanceof Map<?,?> client) {
+
+        if (resAccess != null && resAccess.get(clientAppId) instanceof Map<?,?> client) {
             Object cr = client.get("roles");
             if (cr instanceof Collection<?> croles) {
                 croles.forEach(r -> authorities.add(new SimpleGrantedAuthority("ROLE_" + r)));

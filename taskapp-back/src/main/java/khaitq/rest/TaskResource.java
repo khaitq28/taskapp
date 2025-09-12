@@ -21,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Tag(name = "Task Management")
 @RequestMapping(path = "/api/v1/tasks")
+@PreAuthorize("hasAnyRole('user', 'admin')")
 public class TaskResource {
     private final TaskManager taskManager;
 

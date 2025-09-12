@@ -2,7 +2,7 @@ package khaitq.applicatioin;
 
 import jakarta.annotation.PostConstruct;
 import khaitq.config.AuthManager;
-import khaitq.config.CurrentUserUtil;
+import khaitq.domain.exception.AccessDeniedException;
 import khaitq.domain.exception.EntityNotFoundException;
 import khaitq.domain.task.Task;
 import khaitq.domain.task.TaskId;
@@ -31,7 +31,7 @@ public class TaskManager {
     private final ModelMapper modelMapper = new ModelMapper();
 
     private final AuthManager authManager;
-
+    private final TaskAccessPolicy taskAccessPolicy;
 
     public List<TaskDto> getByUserId(String userId) {
         UserId id = new UserId(userId);
@@ -67,6 +67,7 @@ public class TaskManager {
 
     @Transactional
     public TaskDto updateTask(String id, CreateUpdateTaskDto dto) {
+        checkCurrentUserCanAccessTask(id);
         TaskId taskId = new TaskId(id);
         Task task = taskRepository.findById(taskId);
         if (task == null) throw new EntityNotFoundException("Task",id);
@@ -85,6 +86,7 @@ public class TaskManager {
     }
 
     public TaskDto getById(String id) throws EntityNotFoundException {
+        checkCurrentUserCanAccessTask(id);
         TaskId taskId = new TaskId(id);
         Task task = taskRepository.findById(taskId);
         if (task == null) throw new EntityNotFoundException("Task ", id);
@@ -93,9 +95,16 @@ public class TaskManager {
 
     @Transactional
     public void deleteTask(String id) {
+        checkCurrentUserCanAccessTask(id);
         TaskId taskId = new TaskId(id);
         Task task = taskRepository.findById(taskId);
         if (task == null) throw new EntityNotFoundException("Task ", id);
         taskRepository.delete(taskId);
+    }
+
+    private void checkCurrentUserCanAccessTask(String taskId) {
+        if (authManager.isAdmin() || taskAccessPolicy.canAccessTask(taskId, authManager.currentUserEmail()))
+            return;
+        throw new AccessDeniedException("You do not have permission to access this task.");
     }
 }

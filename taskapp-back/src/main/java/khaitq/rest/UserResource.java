@@ -28,12 +28,6 @@ public class UserResource {
         return ResponseEntity.ok(manager.getUsers());
     }
 
-//    @Operation(summary = "Get user and tasks by User ID")
-//    @GetMapping(path = "/{id}")
-//    public ResponseEntity<UserTaskDto> getUser(@PathVariable("id") String userId) {
-//        return ResponseEntity.ok(manager.getUserWithTasksById(userId));
-//    }
-
     @Operation(summary = "Get user and tasks by User email")
     @PreAuthorize("@authManager.isCurrentUser(#p0) || @authManager.isAdmin()")
     @GetMapping(path = "/{email}")

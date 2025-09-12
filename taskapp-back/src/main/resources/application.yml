@@ -52,3 +52,7 @@ spring:
 logging:
   level:
     org.springframework.boot.autoconfigure.flyway: DEBUG
+
+app:
+  security:
+    client-app-id: taskapp-frontend

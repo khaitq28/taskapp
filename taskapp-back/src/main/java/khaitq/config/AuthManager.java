@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthManager {
 
-    private final CurrentUserUtil current;
+    private final CurrentUser current;
     private static final String ADMIN_ROLE = "admin";
 
     public boolean isCurrentUser(String email) {

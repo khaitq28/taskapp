@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class CurrentUserUtil {
+public class CurrentUser {
 
     public JwtAuthenticationToken auth() {
         var a = SecurityContextHolder.getContext().getAuthentication();
