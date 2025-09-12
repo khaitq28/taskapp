@@ -33,7 +33,7 @@ services:
     ports:
       - "9443:9443"   # Console/Publisher/Dev Portal (HTTPS)
       - "8243:8243"   # API Gateway (HTTPS)
-      - "8280:8280" # (tùy chọn) Gateway HTTP, nên bỏ để prod-like
+      - "8280:8280" # 
     extra_hosts:
       - "host.docker.internal:host-gateway"  #  APIM call API on host Linux
     depends_on:
