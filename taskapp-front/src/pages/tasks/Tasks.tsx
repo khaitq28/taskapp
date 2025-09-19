@@ -33,7 +33,7 @@ export const Tasks = () => {
   }, []);
 
   const fetchAllTasks = async () => {
-    const currentUserId = auth.userLogin?.id
+    const currentUserId = auth.userLogin?.email
     const userData = await UserService.getUserById(currentUserId);
     if (userData.data.tasks) {
       console.log(userData.data.tasks);

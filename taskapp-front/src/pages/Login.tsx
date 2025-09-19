@@ -35,7 +35,7 @@ export const Login = () => {
             {
                 id: id,
                 name: "Tony " + role,
-                email: "tony@example.com",
+                email: "user2@example.com",
                 role: role
             });
         setTimeout(() => {

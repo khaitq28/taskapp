@@ -6,10 +6,7 @@ import khaitq.domain.task.TaskRepository;
 import khaitq.domain.user.User;
 import khaitq.domain.user.UserId;
 import khaitq.domain.user.UserRepository;
-import khaitq.rest.dto.BaseUserDto;
-import khaitq.rest.dto.UserDto;
-import khaitq.rest.dto.UserTaskDto;
-import khaitq.rest.dto.TaskDto;
+import khaitq.rest.dto.*;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -29,7 +26,7 @@ public class UserManager {
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Transactional
-    public UserDto save(BaseUserDto dto) {
+    public UserDto save(CreateUserDto dto) {
         User user = modelMapper.map(dto, User.class);
         user.setUserId(new UserId(UUID.randomUUID().toString()));
         user = userRepository.save(user);

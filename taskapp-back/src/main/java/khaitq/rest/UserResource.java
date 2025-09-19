@@ -1,6 +1,6 @@
 package khaitq.rest;
 
-import org.springframework.security.access.method.P;
+import khaitq.rest.dto.CreateUserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ public class UserResource {
     @PostMapping()
     @PreAuthorize("@authManager.isAdmin()")
     @Operation(summary = "Create a new user", description = "This endpoint allows you to create a new user with the provided details.")
-    public ResponseEntity<BaseUserDto> save(@RequestBody @Valid BaseUserDto dto) {
+    public ResponseEntity<BaseUserDto> save(@RequestBody @Valid CreateUserDto dto) {
         return ResponseEntity.ok(manager.save(dto));
     }
 
