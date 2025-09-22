@@ -27,7 +27,9 @@ public class UserManager {
 
     @Transactional
     public UserDto save(CreateUserDto dto) {
-        User user = modelMapper.map(dto, User.class);
+        User user = User.builder()
+                .passwordHash(dto.password())
+                .name(dto.name()).email(dto.email()).role(dto.role()).build();
         user.setUserId(new UserId(UUID.randomUUID().toString()));
         user = userRepository.save(user);
         return modelMapper.map(user, UserDto.class);

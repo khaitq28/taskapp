@@ -22,5 +22,7 @@ public class UserEntity {
     private String email;
     @Column(nullable = false)
     private String role;
+    @Column(name = "password_hash", nullable = true)
+    private String passwordHash;
 
 }

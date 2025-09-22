@@ -43,10 +43,12 @@ spring:
           batch_size: 100
 
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8081/realms/taskapp/protocol/openid-connect/certs
+    filter:
+      dispatcher-types: request
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8081/realms/taskapp/protocol/openid-connect/certs
 
 
 logging:
@@ -54,5 +56,11 @@ logging:
     org.springframework.boot.autoconfigure.flyway: DEBUG
 
 app:
-  security:
-    client-app-id: taskapp-frontend
+  jwt:
+    issuer: "https://auth.taskapp.local"
+    access-token-minutes: 15
+    refresh-token-days: 14
+    key:
+      kid: "taskapp-key-1"
+      private: classpath:keys/privateKey.pem
+      public: classpath:keys/publicKey.pem

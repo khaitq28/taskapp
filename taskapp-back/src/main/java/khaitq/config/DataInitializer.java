@@ -30,9 +30,9 @@ public class DataInitializer implements CommandLineRunner {
         if (userManager.countUsers() > 0) return;
         for (int i = 1; i < 5; i++) {
             CreateUserDto user = CreateUserDto.builder()
-                    .name("User " + i)
+                    .name("user")
                     .email("user" + i + "@example.com")
-                    .password(passwordEncoder.encode("password" + i))
+                    .password(passwordEncoder.encode("password"))
                     .role(i == 1 || i == 2 ? "USER" : "ADMIN")
                     .build();
             UserDto createdUser = userManager.save(user);

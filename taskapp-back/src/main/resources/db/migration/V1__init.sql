@@ -2,8 +2,9 @@ CREATE TABLE IF NOT EXISTS users (
         id VARCHAR(50) PRIMARY KEY,
         email VARCHAR(100) NOT NULL UNIQUE,
         password_hash TEXT NULL,
-        provider VARCHAR(20) NOT NULL,
-        display_name TEXT,
+        provider VARCHAR(20) NOT NULL DEFAULT 'LOCAL',
+        provider_sub TEXT NULL,
+        name TEXT,
         role VARCHAR(20)
     );
 

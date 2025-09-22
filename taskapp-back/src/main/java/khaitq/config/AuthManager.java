@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class AuthManager {
 
     private final CurrentUser current;
-    private static final String ADMIN_ROLE = "admin";
+    private static final String ADMIN_ROLE = "ADMIN";
 
     public boolean isCurrentUser(String email) {
         return email != null && current.email().equalsIgnoreCase(email);
