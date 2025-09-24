@@ -1,6 +1,9 @@
 package khaitq.domain.user;
 
 
+import lombok.Builder;
+
+@Builder
 public record UserId (String value) {
 
     public UserId {
