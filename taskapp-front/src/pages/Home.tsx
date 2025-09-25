@@ -1,6 +1,11 @@
 import {Typography, Box} from '@mui/material';
+import {useAuth} from "../hooks/useAuth.tsx";
 
 export const Home = () => {
+
+    const { userLogin, loading, isAuthenticated } = useAuth();
+
+    if (loading) return <div>Loading...</div>;
 
 
     return (
@@ -15,6 +20,16 @@ export const Home = () => {
                 Backend: Golang, Gin, Gorm, PostgreSQL
                 <br />
               </Typography>
+
+
+                {isAuthenticated ? (
+                    <div>
+                        Welcome, {userLogin?.name ?? userLogin?.email}
+                        <pre>{JSON.stringify(userLogin, null, 2)}</pre>
+                    </div>
+                ) : (
+                    <div>Not signed in</div>
+                )}
 
             </Box>
 

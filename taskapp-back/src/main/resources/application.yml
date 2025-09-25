@@ -43,19 +43,29 @@ spring:
           batch_size: 100
 
   security:
-    filter:
-      dispatcher-types: request
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          jwk-set-uri: http://localhost:8081/realms/taskapp/protocol/openid-connect/certs
-
+    oauth2:
+      client:
+        registration:
+            google:
+                client-id: 430743706570-rh1rc6gppdshtjbnl136vhgcfu5tvfrk.apps.googleusercontent.com
+                client-secret: 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
+                scope:
+                - openid
+                - profile
+                - email
+                redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+                client-name: Google
+        provider:
+            google:
+                issuer-uri: https://accounts.google.com
 
 logging:
   level:
     org.springframework.boot.autoconfigure.flyway: DEBUG
 
 app:
+  frontend:
+    popup-origin: "http://localhost:3000"
   jwt:
     issuer: "https://auth.taskapp.local"
     access-token-minutes: 15

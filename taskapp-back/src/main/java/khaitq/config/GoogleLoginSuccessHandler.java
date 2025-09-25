@@ -1,0 +1,62 @@
+package khaitq.config;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import khaitq.applicatioin.TokenService;
+import khaitq.domain.Identity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.time.Duration;
+
+
+@Component
+@RequiredArgsConstructor
+public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Value("${app.frontend.popup-origin}")
+    private String popupOrigin;
+
+    private final TokenService tokenService;
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
+//        Identity identity = provisioning.fromGoogle(email, oAuth2User.getAttributes()); // map/provision user nội bộ
+
+        Identity identity = Identity.builder().email(email).role("USER").build();
+
+        String refresh = tokenService.issueRefreshToken(identity);
+
+
+        ResponseCookie cookie = ResponseCookie.from("refresh", refresh)
+                .httpOnly(true)
+                .secure(true)          // BẮT BUỘC nếu SameSite=None
+                .sameSite("None")      // Cross-site bắt buộc None
+                .path("/taskapp/auth/refresh")
+                .maxAge(Duration.ofDays(14))
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.setContentType(MediaType.TEXT_HTML_VALUE);
+        response.getWriter().write("""
+      <!doctype html><html><body><script>
+        window.opener.postMessage({type:"GOOGLE_LOGIN_SUCCESS"}, "%s");
+        window.close();
+      </script></body></html>
+      """.formatted(popupOrigin));
+
+    }
+
+}

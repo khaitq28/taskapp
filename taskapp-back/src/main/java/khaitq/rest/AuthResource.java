@@ -4,9 +4,11 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import khaitq.applicatioin.IdentityProvider;
 import khaitq.applicatioin.TokenService;
+import khaitq.domain.Identity;
 import khaitq.rest.dto.LoginRequest;
 import khaitq.rest.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,28 @@ public class AuthResource {
     private final IdentityProvider passwordProvider;
     private final TokenService tokenService;
     private final Map<String, Map<String, String>> oauth2Flows = new ConcurrentHashMap<>();
+
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Map<String,String>> refresh(@CookieValue(name="refresh", required=false) String refreshCookie) {
+        if (refreshCookie == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","missing_refresh"));
+        }
+        Identity id = tokenService.verifyAccessToken(refreshCookie);
+        String access = tokenService.issueAccessToken(id);
+        return ResponseEntity.ok(Map.of("access", access));
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletResponse res) {
+        ResponseCookie expired = ResponseCookie.from("refresh","")
+                .httpOnly(true).secure(true).sameSite("Lax").path("/auth/refresh")
+                .maxAge(0).build();
+        res.setHeader(HttpHeaders.SET_COOKIE, expired.toString());
+        return ResponseEntity.noContent().build();
+    }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req) {
