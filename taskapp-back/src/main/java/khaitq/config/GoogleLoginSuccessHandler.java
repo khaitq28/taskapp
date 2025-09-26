@@ -1,9 +1,8 @@
 package khaitq.config;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import khaitq.applicatioin.TokenService;
+import khaitq.applicatioin.AuthSessionService;
 import khaitq.domain.Identity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,24 +25,19 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Value("${app.frontend.popup-origin}")
     private String popupOrigin;
 
-    private final TokenService tokenService;
+    private final AuthSessionService authSession;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oAuth2User.getAttribute("email");
-//        Identity identity = provisioning.fromGoogle(email, oAuth2User.getAttributes()); // map/provision user nội bộ
-
-        Identity identity = Identity.builder().email(email).role("USER").build();
-
-        String refresh = tokenService.issueRefreshToken(identity);
+        String refresh = authSession.issueRefreshForGoogleLogin(oAuth2User.getAttributes());
 
 
         ResponseCookie cookie = ResponseCookie.from("refresh", refresh)
                 .httpOnly(true)
-                .secure(true)          // BẮT BUỘC nếu SameSite=None
-                .sameSite("None")      // Cross-site bắt buộc None
+                .secure(true)
+                .sameSite("None")
                 .path("/taskapp/auth/refresh")
                 .maxAge(Duration.ofDays(14))
                 .build();

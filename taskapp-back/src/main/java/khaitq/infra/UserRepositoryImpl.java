@@ -7,6 +7,7 @@ import khaitq.domain.user.UserRepository;
 import khaitq.infra.persitence.UserEntity;
 import khaitq.infra.persitence.UserRepositoryDb;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         UserEntity entity = modelMapper.map(user, UserEntity.class);
+        if (StringUtils.isBlank(entity.getPasswordHash())) entity.setProvider("google");
         userRepositoryDb.save(entity);
         return user;
     }

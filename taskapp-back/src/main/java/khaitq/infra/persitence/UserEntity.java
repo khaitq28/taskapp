@@ -24,5 +24,7 @@ public class UserEntity {
     private String role;
     @Column(name = "password_hash", nullable = true)
     private String passwordHash;
+    @Column(name = "provider")
+    private String provider;
 
 }

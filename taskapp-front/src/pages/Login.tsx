@@ -1,7 +1,6 @@
 import {Box, Button, DialogActions, TextField} from "@mui/material";
 import {useAuth} from "../hooks/useAuth.tsx";
 import { useNavigate} from "react-router-dom";
-import {useEffect} from "react";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -26,9 +25,9 @@ export const Login = () => {
 
     // const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
-    // const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-    //     resolver: yupResolver(schema)
-    // });
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+        resolver: yupResolver(schema)
+    });
     // useEffect(() => {
     //     if (isAuthenticated) {
     //         navigate('/');
@@ -48,9 +47,11 @@ export const Login = () => {
     //     }, 0);
     // };
     //
-    // const doLogin = (data: FormData) => {
-    //     console.log(data);
-    // };
+    const doLogin = async  (data: FormData) => {
+        console.log(data);
+        await loginWithPassword(data.username, data.password);
+        navigate("/", { replace: true });
+    };
 
 
     const loginGoogle = () => {
@@ -79,37 +80,36 @@ export const Login = () => {
                 </DialogActions>
             )}
 
-            {/*{!isAuthenticated && (*/}
-            {/*    <Box sx={{ maxWidth: 400, mx: "auto", mt: 10 }}>*/}
+            {!isAuthenticated && (
+                <Box sx={{ maxWidth: 400, mx: "auto", mt: 10 }}>
 
-            {/*        <TextField*/}
-            {/*            {...register("username")}*/}
-            {/*            label="Username"*/}
-            {/*            fullWidth*/}
-            {/*            margin="normal"*/}
-            {/*            error={!!errors.username}*/}
-            {/*            helperText={errors.username ? errors.username.message : ""} />*/}
+                    <TextField
+                        {...register("username")}
+                        label="Username"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.username}
+                        helperText={errors.username ? errors.username.message : ""} />
 
-            {/*        <TextField*/}
-            {/*            {...register("password")}*/}
-            {/*            label="Password"*/}
-            {/*            type="password"*/}
-            {/*            fullWidth*/}
-            {/*            margin="normal"*/}
-            {/*            error={!!errors.password}*/}
-            {/*            helperText={errors.password ? errors.password.message : ""} />*/}
+                    <TextField
+                        {...register("password")}
+                        label="Password"
+                        type="password"
+                        fullWidth
+                        margin="normal"
+                        error={!!errors.password}
+                        helperText={errors.password ? errors.password.message : ""} />
 
-            {/*        <Button*/}
-            {/*            variant="contained"*/}
-            {/*            color="primary"*/}
-            {/*            fullWidth*/}
-            {/*            onClick={handleSubmit((data) => {*/}
-            {/*                console.log(data);*/}
-            {/*                doLogin(data);*/}
-            {/*            })}>*/}
-            {/*            Login </Button>*/}
-            {/*    </Box>*/}
-            {/*)}*/}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={handleSubmit((data) => {
+                            doLogin(data);
+                        })}>
+                        Login </Button>
+                </Box>
+            )}
 
 
         </Box>

@@ -11,8 +11,8 @@ import io.cucumber.java.en.Then;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@CucumberContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@CucumberContextConfiguration
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserStepDefinitions {
 
     @LocalServerPort

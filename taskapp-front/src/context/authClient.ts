@@ -3,9 +3,12 @@ import {UserLogin} from "../data/UserLogin.ts";
 let accessInMemory: string | null = null;
 
 export function setAccess(token: string | null) {
+    console.log(setAccess.name + " called with token:", token);
     accessInMemory = token;
 }
 export function getAccess() {
+
+    console.log(getAccess.name + " returning token:", accessInMemory);
     return accessInMemory;
 }
 

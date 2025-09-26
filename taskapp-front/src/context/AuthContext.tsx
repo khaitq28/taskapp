@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from "react";
 import {UserLogin} from "../data/UserLogin.ts";
-import {claimsToUser, parseJwt, refreshAccess, setAccess} from "./authClient.ts";
+import {claimsToUser, getAccess, parseJwt, refreshAccess, setAccess} from "./authClient.ts";
 
 
 // type AuthContextType = {
@@ -29,32 +29,15 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [userLogin, setUserLogin] = useState<UserLogin | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    // const [token, setToken] = useState<string | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     const setFromAccess = (access: string) => {
         setAccess(access);
-        setToken(access);
-        const claims = claimsToUser(parseJwt(access));
-        console.log(access);
-        console.log(claims);
-
-        setIsAuthenticated(true);
-        setUserLogin(claims);
+        const claims = parseJwt(access);
+        setUserLogin(claimsToUser(claims));
     };
-
-    // useEffect(() => {
-    //     const storedToken = localStorage.getItem('token');
-    //     const storedUserLogin = localStorage.getItem('userLogin');
-    //     const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
-    //     if (storedToken && storedUserLogin && storedIsAuthenticated) {
-    //         setToken(storedToken);
-    //         setUserLogin(JSON.parse(storedUserLogin));
-    //         setIsAuthenticated(JSON.parse(storedIsAuthenticated));
-    //     }
-    //     setLoading(false);
-    // }, []);
 
     useEffect(() => {
         (async () => {
@@ -63,7 +46,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setFromAccess(access);
             } catch {
                 setAccess(null);
-                setToken(null);
                 setUserLogin(null);
             } finally {
                 setLoading(false);
@@ -75,11 +57,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const resp = await fetch("http://localhost:8080/taskapp/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            credentials: "include", // để nhận refresh cookie nếu BE set ở /login
-            body: JSON.stringify({ email, password })
+            credentials: "include",
+            body: JSON.stringify({ email, password }),
         });
-        if (!resp.ok) throw new Error("login_failed");
+        if (!resp.ok) throw new Error("Invalid credentials");
         const { access } = await resp.json();
+        setIsAuthenticated(true);
         setFromAccess(access);
     };
 
@@ -92,16 +75,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = async () => {
         await fetch("http://localhost:8080/taskapp/auth/logout", {
             method: "POST",
-            credentials: "include"
+            credentials: "include",
         });
         setAccess(null);
-        setToken(null);
         setUserLogin(null);
     };
 
-
     const login = (token: string, userLogin: UserLogin) => {
-        setToken(token);
         setUserLogin(userLogin);
         setIsAuthenticated(true);
         setLoading(false);
@@ -111,20 +91,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem('loading', JSON.stringify(true));
     };
 
-    // const logout = () => {
-    //     setToken(null);
-    //     setUserLogin(null);
-    //     setIsAuthenticated(false);
-    //     localStorage.removeItem('token');
-    //     localStorage.removeItem('userLogin');
-    //     localStorage.removeItem('isAuthenticated');
-    //     localStorage.removeItem('loading');
-    // };
 
     const value: AuthContextType = {
         userLogin,
-        token,
-        isAuthenticated: !!token,
+        isAuthenticated: !!getAccess(),
         loading,
         loginWithPassword,
         loginFromGooglePopup,
