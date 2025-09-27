@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +60,7 @@ public class TaskManager {
         Task task = modelMapper.map(dto, Task.class);
         task.setUserId(new UserId(dto.getUserId()));
         task.setTaskId(new TaskId(UUID.randomUUID().toString()));
+        task.setCreatedAt(LocalDateTime.now());
         task = taskRepository.save(task);
         return modelMapper.map(task, TaskDto.class);
     }

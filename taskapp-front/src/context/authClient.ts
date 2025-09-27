@@ -28,7 +28,7 @@ export function parseJwt(token: string): any {
 
 export function claimsToUser(claims: any): UserLogin {
     return {
-        id: claims.sub,
+        id: claims.id,
         email: claims.email,
         name: claims.name,
         role: claims.role ?? "USER"

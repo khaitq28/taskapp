@@ -51,7 +51,6 @@ export const Tasks = () => {
   };
 
   const deleteTask = (taskId: string) => {
-
     TaskService.deleteTask(taskId).then(() => {
       fetchAllTasks().catch(err=> console.log(err));
     });
@@ -63,53 +62,25 @@ export const Tasks = () => {
     navigate(`/tasks/${taskId}`);
   }
 
-  const handleAddNew = (title: string) => {
-    // const maxId= getMaxId(tasks);
-    // const newTask: Task = {
-    //   id: maxId,
-    //   user_id: 'b5cf61a4-9e1f-43c3-92c9-cfbc1af7b1d4',
-    //   title: title,
-    //   completed: false,
-    //   createdAt: new Date().toISOString(),
-    //   finishedAt: new Date().toISOString(),
-    //   des: '',
-    //   status: ''
-    // }
-    // setTasks([...tasks, newTask]);
-    // setNotifMessage('Task "' + title + '" was added successfully');
-    // setOpenNotif(true);
+  const handleAddNew = (title: string, description: string, status: string) => {
+    // @ts-ignore
+      const newTask: Task = {
+          title: title,
+          des: description,
+          userId: auth.userLogin?.id,
+          status: status
+    }
+    TaskService.createTask(newTask).then(() => {
+      fetchAllTasks().catch(err=> console.log(err));
+    });
+    setNotifMessage('Task ' + title  + ' was added successfully');
+    setOpenNotif(true);
   }
 
   const handleCloseNotif = () => {
     setOpenNotif(false);
     setNotifMessage('');
   };
-
-  const getMaxId = (tasks: Task[]): number => {
-    let maxId: number = 0;
-    tasks.forEach(task => {
-      maxId = Math.max(maxId, task.taskId + 1);
-    })
-    return maxId;
-  }
-
-  const generateTasks = () => {
-    // const newTasks: Task[] = [];
-    // const maxId = getMaxId(tasks);
-    // for (let i = 0; i< 10; i++) {
-    //   newTasks.push({
-    //     id: maxId + i,
-    //     title: 'Title task ' + (maxId + i),
-    //     user_id: 1,
-    //     completed: false,
-    //     finishedAt: new Date().toISOString(),
-    //     des: '',
-    //     status: ''
-    //   });
-    // }
-    // console.log(newTasks);
-    // setTasks([...tasks, ...newTasks]);
-  }
 
   const searchHandle = (keyWord: string) => {
     if (keyWord.trim()) {
@@ -158,8 +129,6 @@ export const Tasks = () => {
           onClose={handleCloseNotif}
           message={notifMessage}
       />
-
-      <Button onClick={() => generateTasks()}>Generate tasks....</Button>
 
     </Box>
   );

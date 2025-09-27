@@ -12,8 +12,6 @@ import {
 import { Task } from '../../data/Task.ts';
 import {TaskService} from "../../services/TaskService.ts";
 
-const STORAGE_KEY = 'todo-tasks';
-
 export const TaskDetail = () => {
   const { id } = useParams<{ id: number }>();
   const navigate = useNavigate();

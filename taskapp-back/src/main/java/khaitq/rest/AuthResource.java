@@ -1,31 +1,13 @@
 package khaitq.rest;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import khaitq.applicatioin.AuthSessionService;
-import khaitq.applicatioin.IdentityProvider;
-import khaitq.applicatioin.TokenService;
-import khaitq.domain.Identity;
-import khaitq.rest.dto.LoginRequest;
-import khaitq.rest.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/auth")

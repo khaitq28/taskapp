@@ -4,7 +4,7 @@ import { useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-
+import { useState } from "react";
 
 type FormData = {
     username: string;
@@ -16,43 +16,18 @@ const schema = yup.object({
     password: yup.string().required("Password is required"),
 }).required();
 
-
 export const Login = () => {
-
     const { loginFromGooglePopup, loginWithPassword, isAuthenticated } = useAuth();
-
-
-
-    // const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(schema)
     });
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         navigate('/');
-    //     }
-    // }, [isAuthenticated, navigate]);
+    const [loginMethod, setLoginMethod] = useState<null | "email" | "google">(null);
 
-    // const handLogin = (id : string, role: string) => {
-    //     login("FAKE_TOKEN",
-    //         {
-    //             id: id,
-    //             name: "Tony " + role,
-    //             email: "user2@example.com",
-    //             role: role
-    //         });
-    //     setTimeout(() => {
-    //         navigate('/');
-    //     }, 0);
-    // };
-    //
     const doLogin = async  (data: FormData) => {
-        console.log(data);
         await loginWithPassword(data.username, data.password);
         navigate("/", { replace: true });
     };
-
 
     const loginGoogle = () => {
         const popup = window.open(
@@ -69,20 +44,24 @@ export const Login = () => {
         }, { once: true });
     };
 
-
     return (
         <Box>
-            {!isAuthenticated && (
-                <DialogActions>
-                    {/*<Button variant="contained" onClick={() => handLogin('b5cf61a4-9e1f-43c3-92c9-cfbc1af7b1d4', "ADMIN")}>Fake Login as Admin</Button>*/}
-                    {/*<Button variant="contained" onClick={() => handLogin('915d92b9-ee02-4131-98c7-5ce67030739a', "MEMBER")}>Fake Login as Member</Button>*/}
-                    <Button onClick={loginGoogle}>Login with Google</Button>
-                </DialogActions>
+            {!isAuthenticated && loginMethod === null && (
+                <Box sx={{
+                    minHeight: "100vh",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                }}>
+                    <DialogActions>
+                        <Button variant="contained" onClick={() => setLoginMethod("email")}>Login with Email</Button>
+                        <Button variant="contained" onClick={() => { setLoginMethod("google"); loginGoogle(); }}>Login with Google</Button>
+                    </DialogActions>
+                </Box>
             )}
 
-            {!isAuthenticated && (
+            {!isAuthenticated && loginMethod === "email" && (
                 <Box sx={{ maxWidth: 400, mx: "auto", mt: 10 }}>
-
                     <TextField
                         {...register("username")}
                         label="Username"
@@ -107,12 +86,16 @@ export const Login = () => {
                         onClick={handleSubmit((data) => {
                             doLogin(data);
                         })}>
-                        Login </Button>
+                        Login
+                    </Button>
+                    <Button
+                        fullWidth
+                        sx={{ mt: 1 }}
+                        onClick={() => setLoginMethod(null)}>
+                        Back
+                    </Button>
                 </Box>
             )}
-
-
         </Box>
-
     );
-};
+}

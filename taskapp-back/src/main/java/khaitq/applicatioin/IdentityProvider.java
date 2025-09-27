@@ -30,6 +30,7 @@ public class IdentityProvider {
                 .userId(user.getUserId().getValue())
                 .email(user.getEmail())
                 .role(user.getRole())
+                .name(user.getName())
                 .build();
     }
 

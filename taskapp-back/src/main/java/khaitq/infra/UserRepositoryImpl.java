@@ -33,6 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User save(User user) {
         UserEntity entity = modelMapper.map(user, UserEntity.class);
         if (StringUtils.isBlank(entity.getPasswordHash())) entity.setProvider("google");
+        else entity.setProvider("local");
         userRepositoryDb.save(entity);
         return user;
     }

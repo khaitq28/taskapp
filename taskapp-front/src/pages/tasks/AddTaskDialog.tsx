@@ -1,16 +1,21 @@
-import {Box, Button, Dialog, DialogActions, Paper, TextField} from "@mui/material";
+import {Box, Button, Checkbox, FormControlLabel, Dialog, DialogActions, Paper, TextField} from "@mui/material";
 import {useState} from "react";
 
 
 export const AddTaskDialog =
 
-    ({ addTask, isOpen, onClose }: { addTask: (title: string) => void; isOpen: boolean; onClose: () => void}) => {
+    ({ addTask, isOpen, onClose }: { addTask: (title: string, description: string, status: string) => void; isOpen: boolean; onClose: () => void}) => {
 
     const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [status, setStatus] = useState<"DOING" | "DONE">("DOING");
+
     const saveTask = () => {
         if (title.trim()) {
-            addTask(title);
+            addTask(title,description, status);
             setTitle("");
+            setDescription("");
+            setStatus("DOING");
             onClose();
         }
     }
@@ -23,7 +28,22 @@ export const AddTaskDialog =
                         fullWidth
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Add new task"
+                        placeholder="Title of task"
+                    />
+                    <TextField
+                        fullWidth
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Description (optional)"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={status === "DONE"}
+                                onChange={(e) => setStatus(e.target.checked ? "DONE" : "DOING")}
+                            />
+                        }
+                        label="Done"
                     />
                 </Box>
                 <DialogActions>

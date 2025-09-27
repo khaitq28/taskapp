@@ -9,6 +9,7 @@ import khaitq.domain.user.UserRepository;
 import khaitq.rest.dto.*;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +23,14 @@ public class UserManager {
 
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Transactional
     public UserDto save(CreateUserDto dto) {
         User user = User.builder()
-                .passwordHash(dto.password())
+                .passwordHash(passwordEncoder.encode("password"))
                 .name(dto.name()).email(dto.email()).role(dto.role()).build();
         user.setUserId(new UserId(UUID.randomUUID().toString()));
         user = userRepository.save(user);

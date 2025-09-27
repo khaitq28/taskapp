@@ -48,6 +48,7 @@ public class NimbusTokenService implements TokenService {
                 .claim("email", id.email())
                 .claim("role", id.role())
                 .claim("name", id.name())
+                .claim("id", id.userId())
                 .build();
 
         var header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(kid).type(JOSEObjectType.JWT).build();
