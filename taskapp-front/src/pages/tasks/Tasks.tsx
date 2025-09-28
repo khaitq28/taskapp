@@ -13,6 +13,7 @@ import {Task} from "../../data/Task.ts";
 import {UserService} from "../../services/UserService.ts";
 import {useAuth} from "../../hooks/useAuth.tsx";
 import {TaskService} from "../../services/TaskService.ts";
+import {TaskBlock} from "./TaskBlock.tsx";
 
 export const Tasks = () => {
   const navigate = useNavigate();
@@ -105,24 +106,27 @@ export const Tasks = () => {
 
       <Box sx={{ textAlign: 'right'}}>
         <Button variant={"contained"} onClick={()=> setOpenDialog(true)}>Add task</Button>
-
-        <Tabs value={selectedTable} onChange={() => setSelectedTable(1- selectedTable)} aria-label="Task Tabs">
-          <Tab label={`Unfinished (${unFinishedTasks.length})`} />
-          <Tab label={`Finished (${finishedTasks.length})`} />
-        </Tabs>
+        {/*<Tabs value={selectedTable} onChange={() => setSelectedTable(1- selectedTable)} aria-label="Task Tabs">*/}
+        {/*  <Tab label={`Unfinished (${unFinishedTasks.length})`} />*/}
+        {/*  <Tab label={`Finished (${finishedTasks.length})`} />*/}
+        {/*</Tabs>*/}
       </Box>
 
-      <Box sx={{ mt:2}}>
-        <>
-        {selectedTable == 0 && (
-            <TaskTab tasks={unFinishedTasks} handleToggleTask={handleToggleTask} deleteTask={deleteTask} showTaskDetail={showTaskDetail}/>
-        )}
-        {selectedTable == 1 && (
-            <TaskTab tasks={finishedTasks} handleToggleTask={handleToggleTask} deleteTask={deleteTask} showTaskDetail={showTaskDetail}/>
-        )}
-        </>
-      </Box>
 
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <TaskBlock
+                tasks={unFinishedTasks}
+                handleToggleTask={handleToggleTask}
+                deleteTask={deleteTask}
+                showTaskDetail={showTaskDetail}
+            />
+            <TaskBlock
+                tasks={finishedTasks}
+                handleToggleTask={handleToggleTask}
+                deleteTask={deleteTask}
+                showTaskDetail={showTaskDetail}
+            />
+        </Box>
       <Snackbar
           open={openNotif}
           autoHideDuration={3000}

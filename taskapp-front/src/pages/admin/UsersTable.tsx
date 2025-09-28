@@ -1,60 +1,46 @@
 import {User} from "../../data/User.ts";
-import {useEffect, useState} from "react";
-import {Box, Button, Checkbox, IconButton, List, ListItem, ListItemText, Paper, TableContainer} from "@mui/material";
+import {Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
-
-export const UsersTable = ({users, deleteUser, addUser}: {
-                    users: User[],
-                    deleteUser: (id:string) => void}) => {
-
-    useEffect(() => {
-        console.log(users);
-        users.forEach(e => {
-            console.log(`User ID: ${e.id}`);
-        });
-    }, []);
-
-
+export const UsersTable = ({users, deleteUser}: {
+    users: User[],
+    deleteUser: (id: string) => void
+}) => {
     return (
-
         <Box>
-
             <TableContainer component={Paper}>
-                <List>
-                    <>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Email</TableCell>
+                            <TableCell align="left">Role</TableCell>
+                            <TableCell align="left"></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
                         {users.map((userItem) => (
-                            <ListItem
-                                key={userItem.id}
-                                component="div"
-                                sx={{
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                <ListItemText
-                                    primary={userItem.name}
-                                />
-                                <ListItemText
-                                    primary={userItem.email}
-                                />
-                                <ListItemText
-                                    primary={userItem.role}
-                                />
-
-                                <IconButton
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // Prevent triggering the ListItem onClick
-                                        deleteUser(userItem.id);
-                                    }}
-                                    edge="end"
-                                    aria-label="delete">
-                                    <Delete/>
-                                </IconButton>
-                            </ListItem>
+                            <TableRow key={userItem.id}>
+                                <TableCell align="left">{userItem.name}</TableCell>
+                                <TableCell align="left">{userItem.email}</TableCell>
+                                <TableCell align="left">{userItem.role}</TableCell>
+                                <TableCell align="left">
+                                    <IconButton
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteUser(userItem.id);
+                                        }}
+                                        edge="end"
+                                        aria-label="delete"
+                                    >
+                                        <Delete />
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
                         ))}
-                    </>
-                </List>
+                    </TableBody>
+                </Table>
             </TableContainer>
         </Box>
-    )
+    );
 }

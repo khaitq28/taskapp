@@ -4,9 +4,6 @@ import {UserService} from "../../services/UserService.ts";
 import {UsersTable} from "./UsersTable.tsx";
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField} from "@mui/material";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-
 
 const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
