@@ -3,13 +3,13 @@ import {User} from "../../data/User.ts";
 import {UserService} from "../../services/UserService.ts";
 import {UsersTable} from "./UsersTable.tsx";
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField} from "@mui/material";
-import * as yup from "yup";
+// import * as yup from "yup";
 
-const schema = yup.object().shape({
-    name: yup.string().required("Name is required"),
-    email: yup.string().email("Invalid email").required("Email is required"),
-    role: yup.string().oneOf(["USER", "ADMIN"], "Role must be USER or ADMIN"),
-});
+// const schema = yup.object().shape({
+//     name: yup.string().required("Name is required"),
+//     email: yup.string().email("Invalid email").required("Email is required"),
+//     role: yup.string().oneOf(["USER", "ADMIN"], "Role must be USER or ADMIN"),
+// });
 
 export const AdminPage = () => {
 
@@ -22,18 +22,19 @@ export const AdminPage = () => {
         role: "USER",
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormUser((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
     };
 
+
     const fetchAllUsers = async () => {
-        UserService.getAllUsers().then(data => {
-            setUsers(data.data);
-        })
+        const data = await UserService.getAllUsers();
+        setUsers(data.data as User[]);
     };
+
 
     useEffect(() => {
         fetchAllUsers().catch(err=> console.log(err));

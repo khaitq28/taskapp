@@ -30,7 +30,7 @@ export const Login = () => {
     };
 
     const loginGoogle = () => {
-        const popup = window.open(
+        window.open(
             "http://localhost:8080/taskapp/oauth2/authorization/google",
             "loginGoogle",
             "width=500,height=600"

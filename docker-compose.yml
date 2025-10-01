@@ -10,6 +10,38 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d  # Mount init scripts
 
+  back:
+    build:
+      context: ./taskapp-back
+      dockerfile: Dockerfile
+    image: taskapp-back:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskapp
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_FLYWAY_ENABLED: "true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  front:
+    build:
+      context: ./taskapp-front
+      dockerfile: Dockerfile
+    image: taskapp-front:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - back
+    restart: unless-stopped
+
+
+volumes:
+  postgres_data:
+
+
 
 #  keycloak:
 #    image: quay.io/keycloak/keycloak:26.0
@@ -39,7 +71,3 @@ services:
 #    depends_on:
 #      - keycloak
 #    restart: unless-stopped
-
-
-volumes:
-  postgres_data:

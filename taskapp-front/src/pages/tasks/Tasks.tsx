@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import {
   Typography,
   Box,
-  Button, Snackbar, Tabs, Tab
+  Button, Snackbar
 } from '@mui/material';
 
 import {AddTaskDialog} from "./AddTaskDialog.tsx";
-import {TaskTab} from "./TaskTab.tsx";
 import {TaskSearchBlock} from "./TaskSearchBlock.tsx";
 import {Task} from "../../data/Task.ts";
 import {UserService} from "../../services/UserService.ts";
@@ -22,7 +21,6 @@ export const Tasks = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [openNotif, setOpenNotif] = useState<boolean>(false);
   const [notifMessage, setNotifMessage] = useState<string>('');
-  const [selectedTable, setSelectedTable] = useState(0);
 
   const finishedTasks = tasks.filter(task => task.status.toUpperCase() === 'DONE');
   const unFinishedTasks = tasks.filter(task => task.status.toUpperCase() !== 'DONE');
@@ -68,7 +66,7 @@ export const Tasks = () => {
       const newTask: Task = {
           title: title,
           des: description,
-          userId: auth.userLogin?.id,
+          userId: auth.userLogin?.id ?? "",
           status: status
     }
     TaskService.createTask(newTask).then(() => {

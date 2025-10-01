@@ -13,10 +13,7 @@ const createApi = (): AxiosInstance => {
     instance.interceptors.request.use(async (config) => {
         const token = getAccess();
         if (token) {
-            config.headers = {
-                ...config.headers,
-                Authorization: `Bearer ${token}`,
-            };
+            config.headers?.set?.('Authorization', `Bearer ${token}`);
         }
         return config;
     });

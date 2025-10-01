@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from "react";
 import {UserLogin} from "../data/UserLogin.ts";
-import {claimsToUser, getAccess, parseJwt, refreshAccess, setAccess} from "./authClient.ts";
+import {claimsToUser, parseJwt, refreshAccess, setAccess} from "./authClient.ts";
 
 
 // type AuthContextType = {
@@ -31,9 +31,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [userLogin, setUserLogin] = useState<UserLogin | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [token, setToken] = useState<string | null>(null);
 
     const setFromAccess = (access: string) => {
         setAccess(access);
+        setToken(access);
         const claims = parseJwt(access);
         setUserLogin(claimsToUser(claims));
     };
@@ -80,20 +82,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUserLogin(null);
     };
 
-    const login = (token: string, userLogin: UserLogin) => {
-        setUserLogin(userLogin);
-        setIsAuthenticated(true);
-        setLoading(false);
-        localStorage.setItem('isAuthenticated', JSON.stringify(true));
-        localStorage.setItem('userLogin',  JSON.stringify(userLogin));
-        localStorage.setItem('token', token);
-        localStorage.setItem('loading', JSON.stringify(true));
-    };
+    // const login = (token: string, userLogin: UserLogin) => {
+    //     setUserLogin(userLogin);
+    //     setIsAuthenticated(true);
+    //     setLoading(false);
+    //     localStorage.setItem('isAuthenticated', JSON.stringify(true));
+    //     localStorage.setItem('userLogin',  JSON.stringify(userLogin));
+    //     localStorage.setItem('token', token);
+    //     localStorage.setItem('loading', JSON.stringify(true));
+    // };
 
 
     const value: AuthContextType = {
         userLogin,
-        isAuthenticated: !!getAccess(),
+        token,
+        isAuthenticated, // use the local state
         loading,
         loginWithPassword,
         loginFromGooglePopup,
