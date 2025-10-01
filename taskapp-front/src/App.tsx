@@ -25,9 +25,9 @@ function App() {
                 }
                 />
                 <Route path="/tasks/:id" element={
-                    <MemberRoute>
+                    // <MemberRoute>
                         <TaskDetail />
-                    </MemberRoute>
+                    // </MemberRoute>
                 } />
                 <Route path="/unauthorized" element={ <Unauthorized/>} />
                 <Route path="/login" element={ <Login/> } />
