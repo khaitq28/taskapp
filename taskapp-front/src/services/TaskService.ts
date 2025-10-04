@@ -6,24 +6,24 @@ const TASK_BASE_URL = '/tasks';
 
 export const TaskService = {
 
-    getTasks: () => {
-        return api.get<Task[]>(TASK_BASE_URL, {});
+    getTasks: async () => {
+        return (await api).get<Task[]>(TASK_BASE_URL, {});
     },
 
-    createTask: (data: Task) => {
-        return api.post(TASK_BASE_URL, data)
+    createTask: async (data: Task) => {
+        return (await api).post(TASK_BASE_URL, data)
     },
 
-    getTaskById: (id: string)  => {
-        return api.get<Task>(TASK_BASE_URL + `/${id}`);
+    getTaskById: async (id: string)  => {
+        return (await api).get<Task>(TASK_BASE_URL + `/${id}`);
     },
 
-    updateTask: (id: string, data: Task) => {
-        return api.put(TASK_BASE_URL + `/${id}`, data);
+    updateTask: async (id: string, data: Task) => {
+        return  (await api).put(TASK_BASE_URL + `/${id}`, data);
     },
 
-    deleteTask(taskId: string) {
-        return api.delete(TASK_BASE_URL + `/${taskId}`);
+    async deleteTask(taskId: string) {
+        return  (await api).delete(TASK_BASE_URL + `/${taskId}`);
     },
 
 

@@ -1,6 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import {UserLogin} from "../data/UserLogin.ts";
 import {claimsToUser, parseJwt, refreshAccess, setAccess} from "./authClient.ts";
+import {loadConfig} from "../config.ts";
 
 
 // type AuthContextType = {
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setToken(access);
         const claims = parseJwt(access);
         setUserLogin(claimsToUser(claims));
+        setIsAuthenticated(true); // Set authenticated when we have a valid token
     };
 
     useEffect(() => {
@@ -55,7 +57,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const loginWithPassword = async (email: string, password: string) => {
-        const resp = await fetch("http://localhost:8080/taskapp/auth/login", {
+        // const backendUrl = import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8080/taskapp";
+
+        const cfg = await loadConfig();
+        const backendUrl = cfg.backendBaseUrl;
+
+        const resp = await fetch(`${backendUrl}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -68,30 +75,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const loginFromGooglePopup = async () => {
-        const access = await refreshAccess();
-        setFromAccess(access);
+        try {
+            const access = await refreshAccess();
+            setFromAccess(access);
+            console.log("Google login successful, user authenticated");
+        } catch (error) {
+            console.error("Google login failed:", error);
+            setIsAuthenticated(false);
+            setUserLogin(null);
+            setToken(null);
+        }
     };
 
 
     const logout = async () => {
-        await fetch("http://localhost:8080/taskapp/auth/logout", {
+        // const backendUrl = import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8080/taskapp";
+
+        const config = await loadConfig();
+        const backendUrl = config.backendBaseUrl;
+
+        await fetch(`${backendUrl}/auth/logout`, {
             method: "POST",
             credentials: "include",
         });
         setAccess(null);
         setUserLogin(null);
+        setToken(null);
+        setIsAuthenticated(false);
     };
-
-    // const login = (token: string, userLogin: UserLogin) => {
-    //     setUserLogin(userLogin);
-    //     setIsAuthenticated(true);
-    //     setLoading(false);
-    //     localStorage.setItem('isAuthenticated', JSON.stringify(true));
-    //     localStorage.setItem('userLogin',  JSON.stringify(userLogin));
-    //     localStorage.setItem('token', token);
-    //     localStorage.setItem('loading', JSON.stringify(true));
-    // };
-
 
     const value: AuthContextType = {
         userLogin,

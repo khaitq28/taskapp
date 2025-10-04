@@ -10,8 +10,15 @@ import {AdminRoute} from "./routes/AdminRoute.tsx";
 import {AdminPage} from "./pages/admin/AdminPage.tsx";
 import {Login} from "./pages/Login.tsx";
 import {MemberRoute} from "./routes/MemberRoute.tsx";
+import {loadConfig} from "./config.ts";
+import {useEffect} from "react";
 
 function App() {
+
+    useEffect(() => {
+        loadConfig(); // Load once on mount, cached in config.ts
+    }, []);
+
   return (
       <AuthProvider>
         <Router>

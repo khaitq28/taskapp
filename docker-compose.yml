@@ -20,22 +20,45 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
       SPRING_FLYWAY_ENABLED: "true"
+      # OAuth2 Configuration
+      GOOGLE_CLIENT_ID: 430743706570-rh1rc6gppdshtjbnl136vhgcfu5tvfrk.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_REDIRECT_URI: http://localhost:8080/taskapp/login/oauth2/code/google
+      # Frontend Configuration
+      FRONTEND_POPUP_ORIGIN: http://localhost
+      FRONTEND_BASE_URL: http://localhost
+      BACKEND_BASE_URL: http://localhost:8080
+      # JWT Configuration
+      JWT_ISSUER: https://auth.taskapp.local
     ports:
       - "8080:8080"
     depends_on:
       - postgres
     restart: unless-stopped
 
+#  front:
+#    build:
+#      context: ./taskapp-front
+#      dockerfile: Dockerfile.local
+#    image: taskapp-front:lastest
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - back
+#    restart: unless-stopped
+
   front:
     build:
       context: ./taskapp-front
-      dockerfile: Dockerfile
-    image: taskapp-front:latest
+      dockerfile: Dockerfile  # Dùng file chính, bỏ .local
+    image: taskapp-front:latest  # Sửa typo 'lastest' thành 'latest'
     ports:
-      - "3000:3000"
+      - "80:80"
     depends_on:
       - back
     restart: unless-stopped
+    volumes:
+      - ./taskapp-front/public/config.json:/usr/share/nginx/html/config.json  # Mount config.json
 
 
 volumes:

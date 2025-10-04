@@ -1,4 +1,5 @@
 import {UserLogin} from "../data/UserLogin.ts";
+import {loadConfig} from "../config.ts";
 
 let accessInMemory: string | null = null;
 
@@ -33,7 +34,12 @@ export function claimsToUser(claims: any): UserLogin {
 }
 
 export async function refreshAccess(): Promise<string> {
-    const resp = await fetch("http://localhost:8080/taskapp/auth/refresh", {
+    // const backendUrl = import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8080/taskapp";
+
+    const config = await loadConfig();
+    const backendUrl = config.backendBaseUrl;
+
+    const resp = await fetch(`${backendUrl}/auth/refresh`, {
         method: "POST",
         credentials: "include"
     });

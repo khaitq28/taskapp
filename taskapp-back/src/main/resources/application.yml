@@ -47,13 +47,13 @@ spring:
       client:
         registration:
             google:
-                client-id: 430743706570-rh1rc6gppdshtjbnl136vhgcfu5tvfrk.apps.googleusercontent.com
-                client-secret: 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
+                client-id: ${GOOGLE_CLIENT_ID:430743706570-rh1rc6gppdshtjbnl136vhgcfu5tvfrk.apps.googleusercontent.com}
+                client-secret: ${GOOGLE_CLIENT_SECRET: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}
                 scope:
                 - openid
                 - profile
                 - email
-                redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+                redirect-uri: "${GOOGLE_REDIRECT_URI:{baseUrl}/login/oauth2/code/{registrationId}}"
                 client-name: Google
         provider:
             google:
@@ -65,12 +65,15 @@ logging:
 
 app:
   frontend:
-    popup-origin: "http://localhost:3000"
+    popup-origin: ${FRONTEND_POPUP_ORIGIN:http://localhost}
+    base-url: ${FRONTEND_BASE_URL:http://localhost}
+  backend:
+    base-url: ${BACKEND_BASE_URL:http://localhost:8080}
   jwt:
-    issuer: "https://auth.taskapp.local"
-    access-token-minutes: 15
-    refresh-token-days: 14
+    issuer: ${JWT_ISSUER:https://auth.taskapp.local}
+    access-token-minutes: ${JWT_ACCESS_TOKEN_MINUTES:15}
+    refresh-token-days: ${JWT_REFRESH_TOKEN_DAYS:14}
     key:
-      kid: "taskapp-key-1"
+      kid: ${JWT_KEY_ID:taskapp-key-1}
       private: classpath:keys/privateKey.pem
       public: classpath:keys/publicKey.pem

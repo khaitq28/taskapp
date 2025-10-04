@@ -2,6 +2,7 @@ package khaitq.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,6 +35,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    @Value("${app.frontend.base-url:http://localhost}")
+    private String frontendBaseUrl;
 
     private final AuthenticationSuccessHandler googleLoginSuccessHandler;
     private final RSAPublicKey publicKey;
@@ -112,12 +115,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(List.of("http://localhost:3000")); // FE origin
+        cfg.setAllowedOrigins(List.of(frontendBaseUrl, "http://localhost:3000", "http://localhost:80", "http://localhost")); // FE origin
         cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
-        cfg.setAllowCredentials(true);
-
-        cfg.setAllowedOrigins(List.of("http://localhost:3000"));
         cfg.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

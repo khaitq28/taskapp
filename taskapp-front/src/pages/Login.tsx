@@ -5,6 +5,7 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import { useState } from "react";
+import {loadConfig} from "../config.ts";
 
 type FormData = {
     username: string;
@@ -29,14 +30,21 @@ export const Login = () => {
         navigate("/", { replace: true });
     };
 
-    const loginGoogle = () => {
+    const loginGoogle = async () => {
+        // const googleOAuthUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL || "http://localhost:8080/taskapp/oauth2/authorization/google";
+        // const oauthPopupOrigin = import.meta.env.VITE_OAUTH_POPUP_ORIGIN || "http://localhost:8080";
+
+        const cfg = await loadConfig();
+        const googleOAuthUrl = cfg.googleOAuthUrl;
+        const oauthPopupOrigin = cfg.oauthPopupOrigin;
+
         window.open(
-            "http://localhost:8080/taskapp/oauth2/authorization/google",
+            googleOAuthUrl,
             "loginGoogle",
             "width=500,height=600"
         );
         window.addEventListener("message", async (event) => {
-            if (event.origin !== "http://localhost:8080") return;
+            if (event.origin !== oauthPopupOrigin) return;
             if (event.data?.type === "GOOGLE_LOGIN_SUCCESS") {
                 await loginFromGooglePopup();
                 navigate("/", { replace: true });
