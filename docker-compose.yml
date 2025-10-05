@@ -1,14 +1,14 @@
 services:
-  postgres:
-    image: postgres:15.1-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init:/docker-entrypoint-initdb.d  # Mount init scripts
+#  postgres:
+#    image: postgres:15.1-alpine
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#      - ./init:/docker-entrypoint-initdb.d  # Mount init scripts
 
   back:
     build:
@@ -16,14 +16,17 @@ services:
       dockerfile: Dockerfile
     image: taskapp-back:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskapp
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskapp
+      SPRING_DATASOURCE_URL: jdbc:postgresql://taskapp-rds-dev.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_FLYWAY_ENABLED: "true"
+
       # OAuth2 Configuration
       GOOGLE_CLIENT_ID: 430743706570-rh1rc6gppdshtjbnl136vhgcfu5tvfrk.apps.googleusercontent.com
       GOOGLE_CLIENT_SECRET: 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
       GOOGLE_REDIRECT_URI: http://localhost:8080/taskapp/login/oauth2/code/google
+
       # Frontend Configuration
       FRONTEND_POPUP_ORIGIN: http://localhost
       FRONTEND_BASE_URL: http://localhost
@@ -32,8 +35,8 @@ services:
       JWT_ISSUER: https://auth.taskapp.local
     ports:
       - "8080:8080"
-    depends_on:
-      - postgres
+#    depends_on:
+#      - postgres
     restart: unless-stopped
 
 #  front:
@@ -50,8 +53,8 @@ services:
   front:
     build:
       context: ./taskapp-front
-      dockerfile: Dockerfile  # Dùng file chính, bỏ .local
-    image: taskapp-front:latest  # Sửa typo 'lastest' thành 'latest'
+      dockerfile: Dockerfile
+    image: taskapp-front:latest
     ports:
       - "80:80"
     depends_on:

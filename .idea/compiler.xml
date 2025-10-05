@@ -15,7 +15,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="taskapp-back" options="" />
+      <module name="taskapp-back" options="-parameters" />
     </option>
   </component>
 </project>
