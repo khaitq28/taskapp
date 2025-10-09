@@ -60,7 +60,9 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_eip" "nat" {
-  vpc = true
+  tags = {
+    Name = "eip-${var.env}-taskapp"
+  }
 }
 
 resource "aws_nat_gateway" "nat" {
@@ -86,4 +88,17 @@ resource "aws_route_table_association" "private" {
   count          = 2
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id
+}
+
+
+output "vpc_id" {
+  value = aws_vpc.main.id
+}
+
+output "public_subnets" {
+  value = aws_subnet.public[*].id
+}
+
+output "private_subnets" {
+  value = aws_subnet.private[*].id
 }

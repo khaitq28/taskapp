@@ -1,3 +1,7 @@
 /taskapp-back/target/
 /taskapp-front/node_modules/
 /.idea/
+
+
+/infra/prod/.terraform/*
+/infra/prod/.terraform.lock.hcl
