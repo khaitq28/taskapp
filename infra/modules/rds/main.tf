@@ -22,7 +22,7 @@ variable "eks_cluster_security_group_id" {
 
 resource "aws_db_subnet_group" "rds" {
   name       = "rds-subnet-group-${var.env}"
-  subnet_ids = concat(var.private_subnets, ["subnet-039553a60169dac3d"])
+  subnet_ids = var.private_subnets
   tags = {
     Environment = var.env
   }
@@ -66,7 +66,7 @@ resource "aws_db_instance" "taskapp" {
   db_subnet_group_name   = aws_db_subnet_group.rds.name
   vpc_security_group_ids = [aws_security_group.rds.id]
   skip_final_snapshot    = true
-  publicly_accessible    = true
+  publicly_accessible    = false
 
   tags = {
     Environment = var.env

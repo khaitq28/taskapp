@@ -1,4 +1,4 @@
-CREATE ROLE admin WITH LOGIN PASSWORD 'admin';
-CREATE DATABASE taskapp OWNER admin;
+CREATE ROLE admin WITH LOGIN PASSWORD 'postgres';
+CREATE DATABASE taskapp OWNER postgres;
 
 CREATE DATABASE keycloak;
