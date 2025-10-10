@@ -17,9 +17,9 @@ services:
     image: taskapp-back:latest
     environment:
 #      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskapp
-      SPRING_DATASOURCE_URL: jdbc:postgresql://taskapp-rds-dev.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp
+      SPRING_DATASOURCE_URL: jdbc:postgresql://rds-prod-taskapp.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres123
       SPRING_FLYWAY_ENABLED: "true"
 
       # OAuth2 Configuration
@@ -62,10 +62,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./taskapp-front/public/config.json:/usr/share/nginx/html/config.json  # Mount config.json
-
-
-volumes:
-  postgres_data:
 
 
 

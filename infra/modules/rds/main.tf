@@ -19,13 +19,15 @@ variable "eks_cluster_security_group_id" {
   type = string
 }
 
+
 resource "aws_db_subnet_group" "rds" {
   name       = "rds-subnet-group-${var.env}"
-  subnet_ids = var.private_subnets
+  subnet_ids = concat(var.private_subnets, ["subnet-039553a60169dac3d"])
   tags = {
     Environment = var.env
   }
 }
+
 
 resource "aws_security_group" "rds" {
   name        = "rds-sg-${var.env}"
