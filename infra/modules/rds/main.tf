@@ -64,7 +64,7 @@ resource "aws_db_instance" "taskapp" {
   db_subnet_group_name   = aws_db_subnet_group.rds.name
   vpc_security_group_ids = [aws_security_group.rds.id]
   skip_final_snapshot    = true
-  publicly_accessible    = false
+  publicly_accessible    = true
 
   tags = {
     Environment = var.env
