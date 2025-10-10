@@ -24,3 +24,12 @@ module "eks_prod" {
   vpc_id = module.vpc_prod.vpc_id
   private_subnets = module.vpc_prod.private_subnets
 }
+
+module "rds_prod" {
+  source = "../modules/rds"
+  env    = "prod"
+  vpc_id = module.vpc_prod.vpc_id
+  private_subnets = module.vpc_prod.private_subnets
+  db_password = "postgres123"
+  eks_cluster_security_group_id = module.eks_prod.cluster_security_group_id
+}

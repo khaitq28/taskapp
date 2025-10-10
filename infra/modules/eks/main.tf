@@ -49,7 +49,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
 resource "aws_eks_cluster" "taskapp" {
   name     = "eks-${var.env}-taskapp"
   role_arn = aws_iam_role.eks_cluster.arn
-  version  = "1.29"
+  version  = "1.30"
 
   vpc_config {
     subnet_ids = var.private_subnets
@@ -110,4 +110,9 @@ resource "aws_eks_node_group" "workers" {
     aws_iam_role_policy_attachment.eks_cni_policy,
     aws_iam_role_policy_attachment.ec2_container_registry_read_only
   ]
+}
+
+
+output "cluster_security_group_id" {
+  value = aws_eks_cluster.taskapp.vpc_config[0].cluster_security_group_id
 }
