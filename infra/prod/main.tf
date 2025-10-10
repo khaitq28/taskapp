@@ -33,3 +33,9 @@ module "rds_prod" {
   db_password = "postgres123"
   eks_cluster_security_group_id = module.eks_prod.cluster_security_group_id
 }
+
+module "s3_prod" {
+  source     = "../modules/s3"
+  bucket_name = "taskapp-frontend"
+  env        = "prod"
+}
