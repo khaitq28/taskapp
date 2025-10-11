@@ -1,13 +1,61 @@
-## Fullstack project: TaskApp deploy to AWS by Helm and ArgoCD
-### - Backend: Spring boot  + React + PostgresSQL
-### - Security: JWT + OAuth2 Google
-### - Local test with Docker compose
-### - CI by Github actions
-### - CD by ArgoCD to EKS
-### - Infra as code by Terraform
-### - Infra AWS: ECR + EKS + RDS + S3 + IAM + VPC + CloudWatch + CloudFront
 
-## Helm:
+
+## $\textcolor{Green}{\textsf{ Fullstack project: TaskApp deploy to AWS by Helm and ArgoCD}}$	
+
+
+
+#### - Backend: Spring boot  + React + PostgresSQL
+#### - Security: JWT + OAuth2 Google
+#### - Local test with Docker compose
+#### - CI by Github actions
+#### - CD by ArgoCD to EKS
+#### - Infra as code by Terraform
+#### - Infra AWS: 
+- ECR + EKS for Backend deployement in Kubernetes 
+- RDS for database postgres
+- S3 for webapp react
+- IAM + VPC + CloudWatch + CloudFront
+
+
+With a real project we have separate environments: DEV, UAT, PRO 
+
+----------------------------------------------------------------------------
+
+## $\textcolor{Green}{\textsf{ Local}}$	
+
+Windows : 
+
+`docker-compose up -d `
+
+Macos/Linux
+
+`docker compose up -d`
+
+Webapp url: http://localhost
+
+Web API swagger url:   http://localhost:8080/taskapp/swagger-ui/index.html 
+
+----------------------------------------------------------------------------
+## $\textcolor{Green}{\textsf{ Infra with Terraform  }}$	
+
+[Here](https://github.com/khaitq28/taskapp/tree/main/infra) is the repo of terraform scripts. IaC help us to create/destroy quickly necessary infra for multiple env. 
+
+- We have 2 env PROD and UAT, each contains main.tf file, which will by apply and link to multiple modules: VPC, EKS, S3, RDS...
+- To create all infra AWS for PROD: 
+
+`cd prod  `
+
+`terraform init  `
+
+`terraform plan`
+
+`terraform apply 
+`
+
+Then "yes" to confirm
+
+----------------------------------------------------------------------------
+## $\textcolor{Green}{\textsf{ Helm  }}$	
 
 + Create helm chart for backend service
 
