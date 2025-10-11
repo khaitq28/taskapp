@@ -1,0 +1,87 @@
+replicaCount: 2
+
+image:
+  repository: taskapp-back
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+#imagePullSecrets: []
+#nameOverride: ""
+#fullnameOverride: ""
+#
+serviceAccount:
+  create: false
+#  automount: true
+#  annotations: {}
+#  name: ""
+#
+#podAnnotations: {}
+#podLabels: {}
+#podSecurityContext: {}
+#securityContext: {}
+
+service:
+  type: LoadBalancer
+  port: 443
+
+ingress:
+  enabled: false
+#  className: ""
+#  annotations: {}
+#  hosts:
+#    - host: chart-example.local
+#      paths:
+#        - path: /
+#          pathType: ImplementationSpecific
+#  tls: []
+#
+httpRoute:
+  enabled: false
+#  annotations: {}
+#  parentRefs:
+#  - name: gateway
+#    sectionName: http
+#  hostnames:
+#  - chart-example.local
+#  rules:
+#  - matches:
+#    - path:
+#        type: PathPrefix
+#        value: /headers
+#
+#resources: {}
+#livenessProbe:
+#  httpGet:
+#    path: /
+#    port: http
+#readinessProbe:
+#  httpGet:
+#    path: /
+#    port: http
+#
+autoscaling:
+  enabled: false
+#  minReplicas: 1
+#  maxReplicas: 2
+#  targetCPUUtilizationPercentage: 80
+#
+#volumes: []
+#
+#volumeMounts: []
+#
+#nodeSelector: {}
+#
+#tolerations: []
+#
+#affinity: {}
+
+env:
+  FRONTEND_POPUP_ORIGIN: http://localhost
+  FRONTEND_BASE_URL: http://localhost
+  BACKEND_BASE_URL: http://localhost:8080
+  JWT_ISSUER: https://auth.taskapp.local
+
+  SPRING_DATASOURCE_URL: jdbc:postgresql://rds-prod-taskapp.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: postgres123
+  SPRING_FLYWAY_ENABLED: "true"

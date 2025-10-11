@@ -7,3 +7,10 @@
 /infra/prod/.terraform.lock.hcl
 /infra/prod/.terraform/
 /infra/prod/.terraform.lock.hcl
+/taskapp-front/dist/index.html
+/taskapp-back/.idea/compiler.xml
+/taskapp-front/dist/config.json
+/taskapp-front/dist/assets/index-BK9kZR0w.js
+/taskapp-front/dist/assets/index-BpTT03bM.css
+/taskapp-back/.idea/vcs.xml
+/taskapp-front/dist/vite.svg
