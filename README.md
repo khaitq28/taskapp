@@ -61,6 +61,24 @@ Add new created eks cluster to kubeconfig:
 
 From now helm and kubectl can connect to eks cluster
 
+-------------------------------
+
+Login to AWS ECR to push docker image
+
+`aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.eu-west-3.amazonaws.com`
+
+
+Build and tag image:
+`docker build -t backend . `
+
+Tag image:
+`docker tag backend:latest <account-id>.dkr.ecr.eu-west-3.amazonaws.com/backend:latest
+`
+
+Push image to ECR:
+`docker push <account-id>.dkr.ecr.eu-west-3.amazonaws.com/backend:latest
+`
+
 ----------------------------------------------------------------------------
 ## $\textcolor{Green}{\textsf{ Helm  }}$	
 

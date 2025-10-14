@@ -39,3 +39,13 @@ module "s3_prod" {
   bucket_name = "taskapp-frontend"
   env        = "prod"
 }
+
+module "ecr_prod" {
+  source          = "../modules/ecr"
+  repository_name = "taskapp-back"
+  env             = "prod"
+}
+
+output "ecr_prod_url" {
+  value = module.ecr_prod.repository_url
+}
