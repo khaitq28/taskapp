@@ -12,7 +12,10 @@ spec:
   template:
     metadata:
       labels:
+{{/*        {{- include "backend.labels" . | nindent 8 }}*/}}
+        {{- include "backend.selectorLabels" . | nindent 8 }}
         {{- include "backend.labels" . | nindent 8 }}
+
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -23,23 +26,24 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.targetPort }}
           env:
             - name: FRONTEND_POPUP_ORIGIN
-              value: {{ .Values.env.FRONTEND_POPUP_ORIGIN }}
+              value: {{ .Values.env.FRONTEND_POPUP_ORIGIN | quote }}
             - name: FRONTEND_BASE_URL
-              value: {{ .Values.env.FRONTEND_BASE_URL }}
+              value: {{ .Values.env.FRONTEND_BASE_URL | quote }}
             - name: BACKEND_BASE_URL
-              value: {{ .Values.env.BACKEND_BASE_URL }}
+              value: {{ .Values.env.BACKEND_BASE_URL | quote }}
             - name: JWT_ISSUER
-              value: {{ .Values.env.JWT_ISSUER }}
+              value: {{ .Values.env.JWT_ISSUER | quote }}
 
             - name: SPRING_DATASOURCE_URL
-              value: {{ .Values.env.SPRING_DATASOURCE_URL }}
+              value: {{ .Values.env.SPRING_DATASOURCE_URL | quote }}
             - name: SPRING_DATASOURCE_USERNAME
-              value: {{ .Values.env.SPRING_DATASOURCE_USERNAME }}
+              value: {{ .Values.env.SPRING_DATASOURCE_USERNAME | quote }}
             - name: SPRING_DATASOURCE_PASSWORD
-              value: {{ .Values.env.SPRING_DATASOURCE_PASSWORD }}
+              value: {{ .Values.env.SPRING_DATASOURCE_PASSWORD | quote }}
             - name: SPRING_FLYWAY_ENABLED
-              value: {{ .Values.env.SPRING_FLYWAY_ENABLED }}
+              value: {{ .Values.env.SPRING_FLYWAY_ENABLED | quote }}
+
 

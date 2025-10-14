@@ -54,6 +54,13 @@ Web API swagger url:   http://localhost:8080/taskapp/swagger-ui/index.html
 
 Then "yes" to confirm
 
+Add new created eks cluster to kubeconfig:
+
+`aws eks update-kubeconfig --region eu-west-3 --name eks-prod-taskapp `
+
+
+From now helm and kubectl can connect to eks cluster
+
 ----------------------------------------------------------------------------
 ## $\textcolor{Green}{\textsf{ Helm  }}$	
 
@@ -89,6 +96,27 @@ Then "yes" to confirm
 `  helm install backend-test ./backend --dry-run
 `
 
+Push image to ECR/DockerHub to test.
+
++ Test real install:
+
+`
+   helm install backend-test ./backend -f backend/values-prod.yaml
+`
+
+Then check with:
+
+`  helm list
+`
+
+`  kubectl get pods
+`
+
+Test web api:
+
+http://xxxx.eu-west-3.elb.amazonaws.com/taskapp/swagger-ui/index.htm
+
+Replace by your real elb url
 
 ## Multi env:
 + Create different values.yaml file for each env: values-uat.yaml, values-prod.yaml

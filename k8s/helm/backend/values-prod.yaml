@@ -1,9 +1,9 @@
 replicaCount: 2
 
 image:
-  repository: taskapp-back
-  pullPolicy: IfNotPresent
-  tag: "latest"
+  repository: kakaict/taskapp-back
+  pullPolicy: Always
+  tag: latest
 
 #imagePullSecrets: []
 #nameOverride: ""
@@ -22,7 +22,8 @@ serviceAccount:
 
 service:
   type: LoadBalancer
-  port: 443
+  port: 80
+  targetPort: 8080
 
 ingress:
   enabled: false
@@ -76,12 +77,11 @@ autoscaling:
 #affinity: {}
 
 env:
-  FRONTEND_POPUP_ORIGIN: http://localhost
-  FRONTEND_BASE_URL: http://localhost
-  BACKEND_BASE_URL: http://localhost:8080
-  JWT_ISSUER: https://auth.taskapp.local
-
-  SPRING_DATASOURCE_URL: jdbc:postgresql://rds-prod-taskapp.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp
-  SPRING_DATASOURCE_USERNAME: postgres
-  SPRING_DATASOURCE_PASSWORD: postgres123
-  SPRING_FLYWAY_ENABLED: "true"
+  FRONTEND_POPUP_ORIGIN: "http://localhost"
+  FRONTEND_BASE_URL: "http://localhost"
+  BACKEND_BASE_URL: "http://localhost:8080"
+  JWT_ISSUER: "https://auth.taskapp.local"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://rds-prod-taskapp.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp"
+  SPRING_DATASOURCE_USERNAME: "postgres"
+  SPRING_DATASOURCE_PASSWORD: "postgres123"
+  SPRING_FLYWAY_ENABLED: true
