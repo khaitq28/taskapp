@@ -71,4 +71,7 @@ resource "aws_db_instance" "taskapp" {
   tags = {
     Environment = var.env
   }
+
+  deletion_protection         = false
+  auto_minor_version_upgrade  = true
 }

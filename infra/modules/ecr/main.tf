@@ -11,6 +11,7 @@ variable "env" {
 resource "aws_ecr_repository" "this" {
   name                 = "${var.repository_name}-${var.env}"
   image_tag_mutability = "MUTABLE"
+  force_delete = true
   tags = {
     Environment = var.env
   }
