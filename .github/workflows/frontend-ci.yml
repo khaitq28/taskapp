@@ -17,19 +17,16 @@ permissions:
 
 env:
   AWS_REGION: eu-west-3
-  S3_BUCKET_FRONTEND: taskapp-frontend-prod   # ví dụ: taskapp-front-prod-site
+  S3_BUCKET_FRONTEND: taskapp-frontend-prod
   CLOUDFRONT_DISTRIBUTION_ID: EXXXXXX123456
 
-concurrency:
-  group: frontend-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: taskapp-front
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,30 +41,15 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
-      - name: Upload build artifact (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: taskapp-front/build
-
-  deploy:
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-          path: build
+      # Nếu frontend cần biến môi trường như API URL → export tại đây
+      - name: Build Frontend
+        run: |
+          npm run build
 
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::864230187726:role/taskapp-ci-cd
+          role-to-assume: arn:aws:iam::864230187726:role/taskapp-ci-cd   # Role từ Terraform
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Sync to S3
@@ -76,7 +58,6 @@ jobs:
             --delete \
             --cache-control "public, max-age=31536000" \
             --exclude "index.html"
-          # index.html không nên cache dài
           aws s3 cp ./build/index.html "s3://${{ env.S3_BUCKET_FRONTEND }}/index.html" \
             --cache-control "no-cache, no-store, must-revalidate" \
             --content-type "text/html"
