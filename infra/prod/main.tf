@@ -49,3 +49,28 @@ module "ecr_prod" {
 output "ecr_prod_url" {
   value = module.ecr_prod.repository_url
 }
+
+
+module "iam_github_oidc" {
+  source = "../modules/iam-github-oidc"
+
+  create_oidc_provider = false
+  oidc_provider_arn    = "arn:aws:iam::864230187726:oidc-provider/token.actions.githubusercontent.com"
+
+  role_name  = "taskapp-ci-cd"
+  repo_owner = "khaitq28"
+  repo_name  = "taskapp"
+  branch     = "main"
+
+  ecr_repo_arn = "arn:aws:ecr:eu-west-3:864230187726:repository/taskapp-back-prod"
+
+  allow_s3               = true
+  s3_bucket_arn          = "arn:aws:s3:::taskapp-frontend-prod"
+  allow_cloudfront = false
+}
+
+
+
+output "gh_actions_role_arn" {
+  value = module.iam_github_oidc.role_arn
+}
