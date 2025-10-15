@@ -170,10 +170,17 @@ aws eks update-kubeconfig --region eu-west-3 --name eks-prod-taskapp --alias pro
 `helm list
 `
 
-### Auto with ArgoCD
+### CD by ArgoCD
 
 ArgoCD manages contexts by Application config. 
 For ex: 
 + Application for UAT  point to uat-context, 
 + Application for Prod points to prod-context.
 
+
+### $\textcolor{Green}{\textsf{CI by Github actions}}$	
++ Github action (VM)
+  * connect to AWS by OIDC (OpenID Connect) token instead of storing accessKey + accessSecret in Github secret:
+  * build and push backend image to ECR
+  * build and push frontend/dist to S3  
+  * invalidate cache cloudfront (optional)
