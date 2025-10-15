@@ -184,3 +184,10 @@ For ex:
   * build and push backend image to ECR
   * build and push frontend/dist to S3  
   * invalidate cache cloudfront (optional)
+ 
+Terraform destroy all: 
+
+* kubectl delete ingress --all -A || true; kubectl delete svc --all -A || true; kubectl delete deploy --all -A || true
+
+* cd infra/prod && terraform destroy
+
