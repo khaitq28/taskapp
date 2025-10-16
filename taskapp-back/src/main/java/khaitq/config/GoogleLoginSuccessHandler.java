@@ -36,8 +36,8 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         ResponseCookie cookie = ResponseCookie.from("refresh", refresh)
                 .httpOnly(true)
-                .secure(true)
-                .sameSite("None")
+                .secure(false)
+                .sameSite("Lax")
                 .path("/taskapp/auth/refresh")
                 .maxAge(Duration.ofDays(14))
                 .build();
