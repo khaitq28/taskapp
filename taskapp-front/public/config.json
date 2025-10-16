@@ -1,7 +1,7 @@
 {
-  "apiBaseUrl": "http://localhost:8080/taskapp/api/v1",
-  "backendBaseUrl": "http://localhost:8080/taskapp",
+  "apiBaseUrl": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com/taskapp/api/v1",
+  "backendBaseUrl": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com/taskapp",
   "frontendBaseUrl": "http://localhost",
-  "googleOAuthUrl": "http://localhost:8080/taskapp/oauth2/authorization/google",
-  "oauthPopupOrigin": "http://localhost:8080"
+  "googleOAuthUrl": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com/taskapp/oauth2/authorization/google",
+  "oauthPopupOrigin": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com"
 }
