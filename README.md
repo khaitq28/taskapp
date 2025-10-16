@@ -95,7 +95,7 @@ Push image to ECR:
 
 + To add eks cluster to kubeconfig
 
-`  aws eks --region us-east-1 update-kubeconfig --name eks-prod-taskapp
+` aws eks --region  eu-west-3 update-kubeconfig --name eks-prod-taskapp
 `
 + To list all contexts:
 
