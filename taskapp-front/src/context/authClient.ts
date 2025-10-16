@@ -34,7 +34,6 @@ export function claimsToUser(claims: any): UserLogin {
 }
 
 export async function refreshAccess(): Promise<string> {
-    // const backendUrl = import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8080/taskapp";
 
     const config = await loadConfig();
     const backendUrl = config.backendBaseUrl;

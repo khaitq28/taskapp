@@ -31,9 +31,6 @@ export const Login = () => {
     };
 
     const loginGoogle = async () => {
-        // const googleOAuthUrl = import.meta.env.VITE_GOOGLE_OAUTH_URL || "http://localhost:8080/taskapp/oauth2/authorization/google";
-        // const oauthPopupOrigin = import.meta.env.VITE_OAUTH_POPUP_ORIGIN || "http://localhost:8080";
-
         const cfg = await loadConfig();
         const googleOAuthUrl = cfg.googleOAuthUrl;
         const oauthPopupOrigin = cfg.oauthPopupOrigin;

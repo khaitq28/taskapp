@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: 864230187726.dkr.ecr.eu-west-3.amazonaws.com/taskapp-back-prod
   pullPolicy: Always
-  tag: latest
+  tag: 001390cb140cb10024b334227d9e0a639cf39e21
 
 #imagePullSecrets: []
 #nameOverride: ""
@@ -77,8 +77,8 @@ autoscaling:
 #affinity: {}
 
 env:
-  FRONTEND_POPUP_ORIGIN: "http://localhost"
-  FRONTEND_BASE_URL: "http://localhost"
+  FRONTEND_POPUP_ORIGIN: "http://taskapp-frontend-prod.s3-website.eu-west-3.amazonaws.com"
+  FRONTEND_BASE_URL: "http://taskapp-frontend-prod.s3-website.eu-west-3.amazonaws.com"
   BACKEND_BASE_URL: "http://localhost:8080"
   JWT_ISSUER: "https://auth.taskapp.local"
   SPRING_DATASOURCE_URL: "jdbc:postgresql://rds-prod-taskapp.cvwkycmmmr2u.eu-west-3.rds.amazonaws.com:5432/taskapp"

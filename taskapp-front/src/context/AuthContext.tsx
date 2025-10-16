@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const loginWithPassword = async (email: string, password: string) => {
-        // const backendUrl = import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8080/taskapp";
 
         const cfg = await loadConfig();
         const backendUrl = cfg.backendBaseUrl;
@@ -89,7 +88,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     const logout = async () => {
-        // const backendUrl = import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:8080/taskapp";
 
         const config = await loadConfig();
         const backendUrl = config.backendBaseUrl;

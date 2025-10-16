@@ -9,8 +9,6 @@ const createApi = async (): Promise<AxiosInstance> => {
 
     if (apiInstance) return apiInstance;
 
-    // const baseURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/taskapp/api/v1";
-
     const cfg = await loadConfig();
     const baseURL = cfg.apiBaseUrl;
 
