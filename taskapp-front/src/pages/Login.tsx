@@ -41,10 +41,19 @@ export const Login = () => {
             "width=500,height=600"
         );
         window.addEventListener("message", async (event) => {
-            if (event.origin !== oauthPopupOrigin) return;
+            if (event.origin !== oauthPopupOrigin) {
+                console.warn("[FE] ignore message due to origin mismatch");
+                return;
+            }
             if (event.data?.type === "GOOGLE_LOGIN_SUCCESS") {
-                await loginFromGooglePopup();
-                navigate("/", { replace: true });
+                console.log("[FE] about to call refresh, url");
+                try {
+                    await loginFromGooglePopup();
+                    console.log("[FE] refresh ok → navigate home");
+                    navigate("/", { replace: true });
+                } catch (e) {
+                    console.error("[FE] refresh failed:", e);
+                }
             }
         }, { once: true });
     };

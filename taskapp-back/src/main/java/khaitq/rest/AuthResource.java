@@ -1,8 +1,10 @@
 package khaitq.rest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import khaitq.applicatioin.AuthSessionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +14,18 @@ import java.util.*;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthResource {
 
 
     private final AuthSessionService authSession;
 
     @PostMapping("/refresh")
-    public ResponseEntity<Map<String,String>> refresh(@CookieValue(name="refresh", required=false) String refreshCookie) {
+    public ResponseEntity<Map<String,String>> refresh(@CookieValue(name="refresh", required=false) String refreshCookie, HttpServletRequest req) {
+
+        log.info("[REFRESH] Origin={}, Referer={}, Cookie={}",
+                req.getHeader("Origin"), req.getHeader("Referer"), req.getHeader("Cookie"));
+
         if (refreshCookie == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","missing_refresh"));
         }

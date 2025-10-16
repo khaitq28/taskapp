@@ -3,8 +3,8 @@ package khaitq.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import khaitq.applicatioin.AuthSessionService;
-import khaitq.domain.Identity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,6 +20,7 @@ import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Value("${app.frontend.popup-origin}")
@@ -41,6 +42,12 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .path("/taskapp/auth/refresh")
                 .maxAge(Duration.ofDays(14))
                 .build();
+
+
+        log.info("[OAUTH2] Set-Cookie -> {}", cookie.toString());
+        log.info("[OAUTH2] popupOrigin={}, requestOrigin={}, referer={}",
+                popupOrigin, request.getHeader("Origin"), request.getHeader("Referer"));
+
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         response.setContentType(MediaType.TEXT_HTML_VALUE);
