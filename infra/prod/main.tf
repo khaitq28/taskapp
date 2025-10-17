@@ -44,6 +44,8 @@ module "ecr_prod" {
   source          = "../modules/ecr"
   repository_name = "taskapp-back"
   env             = "prod"
+  keep_last  = 1
+  untagged_days = 1
 }
 
 output "ecr_prod_url" {
