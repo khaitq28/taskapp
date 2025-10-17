@@ -121,6 +121,11 @@ Push image to ECR/DockerHub to test.
 `
    helm install backend-test ./backend -f backend/values-prod.yaml
 `
++ update and re-deploy if we want to change values in values-prod.yaml:
+
+`
+helm upgrade  taskapp  ./backend -f backend/values-prod.yaml
+`
 
 Then check with:
 
