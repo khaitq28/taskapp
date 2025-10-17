@@ -33,6 +33,18 @@ export function claimsToUser(claims: any): UserLogin {
     };
 }
 
+const getRefreshToken = () => {
+    const data = localStorage.getItem('refreshToken');
+    if (!data) return null;
+    const tokenData = JSON.parse(data);
+    const isExpired = Date.now() - tokenData.savedAt > tokenData.expiresIn;
+    if (isExpired) {
+        localStorage.removeItem('refreshToken');
+        return null;
+    }
+    return tokenData.token;
+};
+
 export async function refreshAccess(): Promise<string> {
 
     const config = await loadConfig();
@@ -41,7 +53,7 @@ export async function refreshAccess(): Promise<string> {
     const resp = await fetch(`${backendUrl}/auth/refresh`, {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json", "refreshToken": localStorage.getItem('refreshToken') || "" }
+        headers: { "Content-Type": "application/json", "refreshToken": getRefreshToken() || "" }
     });
     if (!resp.ok) throw new Error("refresh_failed");
     const { access } = await resp.json();

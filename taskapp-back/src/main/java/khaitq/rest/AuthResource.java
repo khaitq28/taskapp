@@ -30,7 +30,7 @@ public class AuthResource {
 
         log.info("refreshToken get: {}", refreshToken);
 
-        if (refreshCookie == null || StringUtils.isEmpty(refreshToken)) {
+        if (refreshCookie == null && StringUtils.isBlank(refreshToken)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","missing_refresh"));
         }
 

@@ -4,17 +4,6 @@ import {claimsToUser, parseJwt, refreshAccess, setAccess} from "./authClient.ts"
 import {loadConfig} from "../config.ts";
 
 
-// type AuthContextType = {
-//     userLogin: UserLogin | null;
-//     token: string | null;
-//     isAuthenticated: boolean;
-//     setIsAuthenticated: (isAuthenticated: boolean) => void;
-//     login: (token: string, user: UserLogin) => void;
-//     logout: () => void,
-//     loading: boolean;
-// };
-
-
 type AuthContextType = {
     userLogin: UserLogin | null;
     token: string | null;                 // access (in-memory)

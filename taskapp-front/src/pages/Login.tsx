@@ -48,7 +48,7 @@ export const Login = () => {
             }
             if (event.data?.type === "GOOGLE_LOGIN_SUCCESS") {
                 console.log("[FE] about to call refresh, url");
-                localStorage.setItem('refreshToken', event.data.refreshToken);
+                saveRefreshToken(event.data.refreshToken);
                 try {
                     await loginFromGooglePopup();
                     console.log("[FE] refresh ok → navigate home");
@@ -58,6 +58,15 @@ export const Login = () => {
                 }
             }
         }, { once: true });
+    };
+
+    const saveRefreshToken = (token:string) => {
+        const tokenData = {
+            token: token,
+            savedAt: Date.now(),
+            expiresIn: 14 * 24 * 60 * 60 * 1000 // 14 ngày milliseconds
+        };
+        localStorage.setItem('refreshToken', JSON.stringify(tokenData));
     };
 
     return (
