@@ -27,9 +27,6 @@ public class AuthResource {
             HttpServletRequest req) {
 
         String refreshToken = req.getHeader("refreshToken");
-
-        log.info("refreshToken get: {}", refreshToken);
-
         if (refreshCookie == null && StringUtils.isBlank(refreshToken)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","missing_refresh"));
         }
@@ -50,8 +47,7 @@ public class AuthResource {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String>> login(@RequestBody Map<String,String> body,
-                                                    HttpServletResponse res) {
+    public ResponseEntity<Map<String,String>> login(@RequestBody Map<String,String> body, HttpServletResponse res) {
         String email = body.get("email");
         String password = body.get("password");
         var result = authSession.loginWithPassword(email, password);

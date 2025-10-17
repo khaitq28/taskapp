@@ -8,7 +8,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <!-- Sửa parent để đúng Spring Boot Starter Parent -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>

@@ -43,11 +43,6 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .maxAge(Duration.ofDays(14))
                 .build();
 
-
-        log.info("[OAUTH2] Set-Cookie -> {}", cookie.toString());
-        log.info("[OAUTH2] popupOrigin={}, requestOrigin={}, referer={}",
-                popupOrigin, request.getHeader("Origin"), request.getHeader("Referer"));
-
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         response.setContentType(MediaType.TEXT_HTML_VALUE);
         response.getWriter().write("""
