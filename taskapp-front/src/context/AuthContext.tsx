@@ -75,6 +75,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const loginFromGooglePopup = async () => {
         try {
+            console.log("[FE][COOKIES] All cookies:", document.cookie);
+
             const access = await refreshAccess();
             setFromAccess(access);
             console.log("Google login successful, user authenticated");

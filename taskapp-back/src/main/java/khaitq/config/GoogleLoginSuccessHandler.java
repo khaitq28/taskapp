@@ -39,7 +39,7 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .httpOnly(true)
                 .secure(false)
                 .sameSite("Lax")
-                .path("/taskapp/auth/refresh")
+                .path("/")
                 .maxAge(Duration.ofDays(14))
                 .build();
 
