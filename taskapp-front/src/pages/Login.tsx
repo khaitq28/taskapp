@@ -35,11 +35,17 @@ export const Login = () => {
         const googleOAuthUrl = cfg.googleOAuthUrl;
         const oauthPopupOrigin = cfg.oauthPopupOrigin;
 
-        window.open(
+        const popup = window.open(
             googleOAuthUrl,
             "loginGoogle",
             "width=500,height=600"
         );
+
+        setTimeout(() => {
+            // @ts-ignore
+            popup.focus();
+        }, 3000);
+
         window.addEventListener("message", async (event) => {
             if (event.origin !== oauthPopupOrigin) {
                 console.warn("[FE] ignore message due to origin mismatch");

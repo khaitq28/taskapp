@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: 864230187726.dkr.ecr.eu-west-3.amazonaws.com/taskapp-back-prod
   pullPolicy: Always
-  tag: ef11d046d947a77ee96816a7e2b9fafecd110db9
+  tag: 8fa5449a53c3e17de30b5d88c1bd22a1de5caa0a
 
 #imagePullSecrets: []
 #nameOverride: ""
