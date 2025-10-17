@@ -35,16 +35,11 @@ export const Login = () => {
         const googleOAuthUrl = cfg.googleOAuthUrl;
         const oauthPopupOrigin = cfg.oauthPopupOrigin;
 
-        const popup = window.open(
+        window.open(
             googleOAuthUrl,
             "loginGoogle",
             "width=500,height=600"
         );
-
-        setTimeout(() => {
-            // @ts-ignore
-            popup.focus();
-        }, 3000);
 
         window.addEventListener("message", async (event) => {
             if (event.origin !== oauthPopupOrigin) {
