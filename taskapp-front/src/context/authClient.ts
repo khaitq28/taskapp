@@ -40,7 +40,8 @@ export async function refreshAccess(): Promise<string> {
 
     const resp = await fetch(`${backendUrl}/auth/refresh`, {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
+        headers: { "Content-Type": "application/json", "refreshToken": localStorage.getItem('refreshToken') || "" }
     });
     if (!resp.ok) throw new Error("refresh_failed");
     const { access } = await resp.json();

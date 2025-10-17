@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import khaitq.applicatioin.AuthSessionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +22,19 @@ public class AuthResource {
     private final AuthSessionService authSession;
 
     @PostMapping("/refresh")
-    public ResponseEntity<Map<String,String>> refresh(@CookieValue(name="refresh", required=false) String refreshCookie, HttpServletRequest req) {
+    public ResponseEntity<Map<String,String>> refresh(
+            @CookieValue(name="refresh", required=false) String refreshCookie,
+            HttpServletRequest req) {
 
-        log.info("[REFRESH] Origin={}, Referer={}, Cookie={}",
-                req.getHeader("Origin"), req.getHeader("Referer"), req.getHeader("Cookie"));
+        String refreshToken = req.getHeader("refreshToken");
 
-        if (refreshCookie == null) {
+        log.info("refreshToken get: {}", refreshToken);
+
+        if (refreshCookie == null || StringUtils.isEmpty(refreshToken)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","missing_refresh"));
         }
-        String access = authSession.issueAccessFromRefresh(refreshCookie);
+
+        String access = authSession.issueAccessFromRefresh(refreshToken);
         return ResponseEntity.ok(Map.of("access", access));
     }
 

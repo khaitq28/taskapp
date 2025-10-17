@@ -48,6 +48,7 @@ export const Login = () => {
             }
             if (event.data?.type === "GOOGLE_LOGIN_SUCCESS") {
                 console.log("[FE] about to call refresh, url");
+                localStorage.setItem('refreshToken', event.data.refreshToken);
                 try {
                     await loginFromGooglePopup();
                     console.log("[FE] refresh ok → navigate home");
