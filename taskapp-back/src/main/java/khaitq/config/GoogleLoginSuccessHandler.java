@@ -51,18 +51,13 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         response.setContentType(MediaType.TEXT_HTML_VALUE);
         response.getWriter().write("""
-      <!doctype html><html><body>
-      <script>
-        document.cookie = "refresh=%s; path=/; max-age=1209600; samesite=Lax";
-        console.log('[POPUP] Refresh cookie value:', '%s');
-        console.log('[POPUP] Cookies after set:', document.cookie);
-        setTimeout(() => {
-          window.opener.postMessage({type:"GOOGLE_LOGIN_SUCCESS"}, "%s");
-          window.close();
-        }, 3000);
-      </script>
-      </body></html>
-      """.formatted(refresh, popupOrigin));
+            <!doctype html><html><body><script>
+              document.cookie = "refresh=%s; path=/; max-age=1209600; samesite=Lax";
+              console.log('[POPUP] Cookies after set:', document.cookie);
+              window.opener.postMessage({type:"GOOGLE_LOGIN_SUCCESS"}, "%s");
+              window.close();
+            </script></body></html>
+            """.formatted(refresh, popupOrigin));
 
     }
 
