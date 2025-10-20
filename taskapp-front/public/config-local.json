@@ -1,0 +1,7 @@
+{
+  "apiBaseUrl": "http://localhost/taskapp/api/v1",
+  "backendBaseUrl": "http://localhost/taskapp",
+  "frontendBaseUrl": "http://localhost",
+  "googleOAuthUrl": "http://localhost/taskapp/oauth2/authorization/google",
+  "oauthPopupOrigin": "http://localhost"
+}

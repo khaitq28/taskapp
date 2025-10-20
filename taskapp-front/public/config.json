@@ -1,7 +1,7 @@
 {
-  "apiBaseUrl": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com/taskapp/api/v1",
-  "backendBaseUrl": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com/taskapp",
-  "frontendBaseUrl": "http://localhost",
-  "googleOAuthUrl": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com/taskapp/oauth2/authorization/google",
-  "oauthPopupOrigin": "http://a1b6a08fb572f40fe9ba0a0f328ce002-898761103.eu-west-3.elb.amazonaws.com"
+  "apiBaseUrl": "http://ab1e5229bdbcd4ff8a82614c4a0b35bb-3725070.eu-west-3.elb.amazonaws.com/taskapp/api/v1",
+  "backendBaseUrl": "http://ab1e5229bdbcd4ff8a82614c4a0b35bb-3725070.eu-west-3.elb.amazonaws.com/taskapp",
+  "frontendBaseUrl": "http://ab1e5229bdbcd4ff8a82614c4a0b35bb-3725070.eu-west-3.elb.amazonaws.com",
+  "googleOAuthUrl": "http://ab1e5229bdbcd4ff8a82614c4a0b35bb-3725070.eu-west-3.elb.amazonaws.com/taskapp/oauth2/authorization/google",
+  "oauthPopupOrigin": "http://ab1e5229bdbcd4ff8a82614c4a0b35bb-3725070.eu-west-3.elb.amazonaws.com"
 }
